@@ -1,0 +1,477 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.10
+-- Dumped by pg_dump version 9.6.10
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: attendancerecord; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.attendancerecord (
+    userid text NOT NULL,
+    courseid integer NOT NULL,
+    attendanced boolean DEFAULT false NOT NULL,
+    attendancetime date
+);
+
+
+ALTER TABLE public.attendancerecord OWNER TO herohjk;
+
+--
+-- Name: TABLE attendancerecord; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.attendancerecord IS '출석 기록';
+
+
+--
+-- Name: COLUMN attendancerecord.userid; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.attendancerecord.userid IS '사용자 ID';
+
+
+--
+-- Name: COLUMN attendancerecord.courseid; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.attendancerecord.courseid IS '수업 id';
+
+
+--
+-- Name: COLUMN attendancerecord.attendanced; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.attendancerecord.attendanced IS '출석 여부';
+
+
+--
+-- Name: COLUMN attendancerecord.attendancetime; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.attendancerecord.attendancetime IS '출석 시간';
+
+
+--
+-- Name: course; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.course (
+    index integer NOT NULL,
+    lectureindex text NOT NULL,
+    lectureroomindex integer NOT NULL
+);
+
+
+ALTER TABLE public.course OWNER TO herohjk;
+
+--
+-- Name: TABLE course; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.course IS '수업 정보';
+
+
+--
+-- Name: COLUMN course.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.course.index IS '수업 고유 id';
+
+
+--
+-- Name: COLUMN course.lectureindex; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.course.lectureindex IS '강의자 고유 id';
+
+
+--
+-- Name: COLUMN course.lectureroomindex; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.course.lectureroomindex IS '강의실 고유 id';
+
+
+--
+-- Name: course_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
+--
+
+CREATE SEQUENCE public.course_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.course_index_seq OWNER TO herohjk;
+
+--
+-- Name: course_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
+--
+
+ALTER SEQUENCE public.course_index_seq OWNED BY public.course.index;
+
+
+--
+-- Name: courseinformation; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.courseinformation (
+    index integer NOT NULL,
+    startdate date NOT NULL,
+    enddate date NOT NULL,
+    starttime character(4) DEFAULT '0000'::bpchar NOT NULL,
+    coursetime integer NOT NULL,
+    classday character(7) DEFAULT 'FFFFFFF'::bpchar NOT NULL
+);
+
+
+ALTER TABLE public.courseinformation OWNER TO herohjk;
+
+--
+-- Name: TABLE courseinformation; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.courseinformation IS '수업 상세정보';
+
+
+--
+-- Name: COLUMN courseinformation.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.index IS '수업 고유id';
+
+
+--
+-- Name: COLUMN courseinformation.startdate; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.startdate IS '시작일';
+
+
+--
+-- Name: COLUMN courseinformation.enddate; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.enddate IS '종료일';
+
+
+--
+-- Name: COLUMN courseinformation.starttime; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.starttime IS '수업 시작시간';
+
+
+--
+-- Name: COLUMN courseinformation.coursetime; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.coursetime IS '수업 진행 시간(분)';
+
+
+--
+-- Name: COLUMN courseinformation.classday; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.courseinformation.classday IS '수업 진행 요일';
+
+
+--
+-- Name: lectureroom; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.lectureroom (
+    index integer NOT NULL,
+    nfcid text NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL
+);
+
+
+ALTER TABLE public.lectureroom OWNER TO herohjk;
+
+--
+-- Name: TABLE lectureroom; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.lectureroom IS '강의실';
+
+
+--
+-- Name: COLUMN lectureroom.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.index IS '강의실 고유 id';
+
+
+--
+-- Name: COLUMN lectureroom.nfcid; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.nfcid IS 'NFC 고유 id';
+
+
+--
+-- Name: COLUMN lectureroom.latitude; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.latitude IS '강의실 위도';
+
+
+--
+-- Name: COLUMN lectureroom.longitude; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.longitude IS '강의실 경도';
+
+
+--
+-- Name: lectureroom_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
+--
+
+CREATE SEQUENCE public.lectureroom_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.lectureroom_index_seq OWNER TO herohjk;
+
+--
+-- Name: lectureroom_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
+--
+
+ALTER SEQUENCE public.lectureroom_index_seq OWNED BY public.lectureroom.index;
+
+
+--
+-- Name: user; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public."user" (
+    id text NOT NULL,
+    password text NOT NULL,
+    admin boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public."user" OWNER TO herohjk;
+
+--
+-- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public."user" IS '사용자 정보 테이블';
+
+
+--
+-- Name: COLUMN "user".id; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".id IS '사용자 ID';
+
+
+--
+-- Name: COLUMN "user".password; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".password IS '사용자 비밀번호(MD5)';
+
+
+--
+-- Name: COLUMN "user".admin; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".admin IS '관리자 여부';
+
+
+--
+-- Name: course index; Type: DEFAULT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.course ALTER COLUMN index SET DEFAULT nextval('public.course_index_seq'::regclass);
+
+
+--
+-- Name: lectureroom index; Type: DEFAULT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.lectureroom ALTER COLUMN index SET DEFAULT nextval('public.lectureroom_index_seq'::regclass);
+
+
+--
+-- Data for Name: attendancerecord; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.attendancerecord (userid, courseid, attendanced, attendancetime) FROM stdin;
+\.
+
+
+--
+-- Data for Name: course; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.course (index, lectureindex, lectureroomindex) FROM stdin;
+\.
+
+
+--
+-- Name: course_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.course_index_seq', 1, false);
+
+
+--
+-- Data for Name: courseinformation; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.courseinformation (index, startdate, enddate, starttime, coursetime, classday) FROM stdin;
+\.
+
+
+--
+-- Data for Name: lectureroom; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.lectureroom (index, nfcid, latitude, longitude) FROM stdin;
+\.
+
+
+--
+-- Name: lectureroom_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.lectureroom_index_seq', 1, false);
+
+
+--
+-- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public."user" (id, password, admin) FROM stdin;
+herohjk	da18d4abcfab1f1abfb19697a332324d	t
+admin	da18d4abcfab1f1abfb19697a332324d	t
+testuser	098f6bcd4621d373cade4e832627b4f6	f
+\.
+
+
+--
+-- Name: attendancerecord attendancerecord_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.attendancerecord
+    ADD CONSTRAINT attendancerecord_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: course course_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.course
+    ADD CONSTRAINT course_pkey PRIMARY KEY (index);
+
+
+--
+-- Name: courseinformation courseinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.courseinformation
+    ADD CONSTRAINT courseinformation_pkey PRIMARY KEY (index);
+
+
+--
+-- Name: lectureroom lectureroom_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.lectureroom
+    ADD CONSTRAINT lectureroom_pkey PRIMARY KEY (index);
+
+
+--
+-- Name: user userinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT userinfo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: attendancerecord attendancerecordcourseid_courseindex; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.attendancerecord
+    ADD CONSTRAINT attendancerecordcourseid_courseindex FOREIGN KEY (courseid) REFERENCES public.course(index);
+
+
+--
+-- Name: attendancerecord attendancerecorduserid_userid; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.attendancerecord
+    ADD CONSTRAINT attendancerecorduserid_userid FOREIGN KEY (userid) REFERENCES public."user"(id);
+
+
+--
+-- Name: courseinformation courseinformationindex_courseindex; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.courseinformation
+    ADD CONSTRAINT courseinformationindex_courseindex FOREIGN KEY (index) REFERENCES public.course(index);
+
+
+--
+-- Name: course courselectureroomindex_lectureroom_index; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.course
+    ADD CONSTRAINT courselectureroomindex_lectureroom_index FOREIGN KEY (lectureroomindex) REFERENCES public.lectureroom(index) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: course courseleturerindex_usertext; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.course
+    ADD CONSTRAINT courseleturerindex_usertext FOREIGN KEY (lectureindex) REFERENCES public."user"(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
