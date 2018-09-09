@@ -11,6 +11,10 @@
 4. `sudo -u postgres pg_dump deuluwa < filename.dump` 명령을 수행
 
 ## 현재까지의 ERD 구성 및 설명
+
+### ERD
+![enter image description here](https://raw.githubusercontent.com/HEROHJK/Deuluwa/master/SQL/deuluwa.png)
+
 ### 사용자(user)
 |물리 이름|논리 이름|비고|
 |--|--|--|
