@@ -1,7 +1,7 @@
 # Deuluwa
 출결관리 어플리케이션, 드루와!
 
-![](https://github.com/HEROHJK/Deuluwa/blob/master/DeuluwaMain.png)
+![](https://raw.githubusercontent.com/HEROHJK/Deuluwa/master/DeuluwaMain.png)
 
 ## 프로젝트 소개 및 설명
 C# 기반의 크로스 플랫폼 Xamarain.Forms을 이용해 개발하는 프로젝트로, GPS, NFC, QR코드를 이용한 출석 체크 어플리케이션을 개발한다.
