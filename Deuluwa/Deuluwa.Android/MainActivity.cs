@@ -19,6 +19,15 @@ namespace Deuluwa.Droid
 
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            var x = typeof(Xamarin.Forms.Themes.DarkThemeResources);
+            x = typeof(Xamarin.Forms.Themes.Android.UnderlineEffect);
+
+            //상태바 색상 변경 코드
+            Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
+            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
+            Window.SetStatusBarColor(Android.Graphics.Color.Black);
+
             LoadApplication(new App());
         }
     }

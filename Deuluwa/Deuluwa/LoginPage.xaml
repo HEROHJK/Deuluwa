@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Deuluwa;assembly=Deuluwa"
+             x:Class="Deuluwa.LoginPage"
+             BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout Spacing="20">
+            <Image 
+                Aspect="AspectFit"
+                Source="{local:ImageResource Deuluwa.Image.DeuluwaMain.png}"/>
+            
+            <Label Text="로그인"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+            
+            <local:WhiteRoundEntry 
+                x:Name="idEntry" 
+                Placeholder="ID" 
+                PlaceholderColor="Silver" 
+                TextColor="White" 
+                ReturnType="Go"
+                />
+            <local:WhiteRoundEntry 
+                x:Name="passwordEntry" 
+                Placeholder="비밀번호" 
+                IsPassword="true" 
+                PlaceholderColor="Silver" 
+                TextColor="White" 
+                ReturnType="Done" 
+                />
+            
+            <Button 
+                x:Name="loginButton"
+                Text="로그인" 
+                WidthRequest="100"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
