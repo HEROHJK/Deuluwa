@@ -22,6 +22,13 @@
 |password|비밀번호|text,MD5로 암호화, not null|
 |admin|관리자 여부|boolean, not null|
 
+### 사용자 상세 정보(userInformation)
+|물리 이름|논리 이름|비고|
+|--|--|--|
+|id|사용자 id|text, primary key, 사용자 외래 키|
+|address|주소|text|
+|phoneNumber|전화번호|text|
+
 ### 강의실(lectureRoom)
 |물리이름|논리이름|비고|
 |--|--|--|

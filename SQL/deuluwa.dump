@@ -321,6 +321,47 @@ COMMENT ON COLUMN public."user".admin IS '관리자 여부';
 
 
 --
+-- Name: userinformation; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.userinformation (
+    id text NOT NULL,
+    address text,
+    phonenumber text
+);
+
+
+ALTER TABLE public.userinformation OWNER TO herohjk;
+
+--
+-- Name: TABLE userinformation; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.userinformation IS '사용자 상세 정보';
+
+
+--
+-- Name: COLUMN userinformation.id; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.id IS '사용자 id';
+
+
+--
+-- Name: COLUMN userinformation.address; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.address IS '주소';
+
+
+--
+-- Name: COLUMN userinformation.phonenumber; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.phonenumber IS '전화번호';
+
+
+--
 -- Name: course index; Type: DEFAULT; Schema: public; Owner: herohjk
 --
 
@@ -392,6 +433,14 @@ testuser	098f6bcd4621d373cade4e832627b4f6	f
 
 
 --
+-- Data for Name: userinformation; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.userinformation (id, address, phonenumber) FROM stdin;
+\.
+
+
+--
 -- Name: attendancerecord attendancerecord_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
 --
 
@@ -432,6 +481,14 @@ ALTER TABLE ONLY public."user"
 
 
 --
+-- Name: userinformation userinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.userinformation
+    ADD CONSTRAINT userinformation_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: attendancerecord attendancerecordcourseid_courseindex; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
 --
 
@@ -469,6 +526,14 @@ ALTER TABLE ONLY public.course
 
 ALTER TABLE ONLY public.course
     ADD CONSTRAINT courseleturerindex_usertext FOREIGN KEY (lectureindex) REFERENCES public."user"(id);
+
+
+--
+-- Name: userinformation userinformationid_userid; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.userinformation
+    ADD CONSTRAINT userinformationid_userid FOREIGN KEY (id) REFERENCES public."user"(id);
 
 
 --
