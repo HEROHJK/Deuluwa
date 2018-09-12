@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Deuluwa.MainMenuPage">
+    <ContentPage.Content>
+        <TableView x:Name="mainTableView">
+            <TableRoot>
+                <TableSection>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                Margin="10"
+                                x:Name="nameLabel" 
+                                VerticalOptions="Center"
+                                FontAttributes="Bold"
+                                FontSize="Large"
+                                TextColor="White"
+                                Grid.Column="0" Grid.ColumnSpan="7"/>
+                            <Button 
+                                x:Name="logoutButton"
+                                Margin="10"
+                                Text="로그 아웃" 
+                                Grid.Column="7" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </ViewCell>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                x:Name="phoneNumberLabel" 
+                                Margin="10"
+                                Text="010-8949-2160"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                Grid.Column="0" Grid.ColumnSpan="7"
+                                Grid.Row="0"/>
+                            <Label 
+                                x:Name="addressLabel" 
+                                Margin="10"
+                                Text="서울시 은평구 구산동~~~"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                Grid.Column="0" Grid.ColumnSpan="7"
+                                Grid.Row="1"/>
+                            <Button 
+                                Text="정보 수정"
+                                Margin="10"
+                                Grid.Column="7" Grid.ColumnSpan="3"
+                                Grid.Row="0" Grid.RowSpan="2"
+                                />
+                        </Grid>
+                    </ViewCell>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                Text="수업 정보"
+                                Margin="10"
+                                TextColor="White"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                Grid.Column="0" Grid.ColumnSpan="9"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text=">"
+                                Margin="10"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                Grid.Column="9" Grid.ColumnSpan="1"
+                                />
+                        </Grid>
+                    </ViewCell>
+                    
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                Text="출석 하기"
+                                Margin="10"
+                                TextColor="White"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                Grid.Column="0" Grid.ColumnSpan="9"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text=">"
+                                Margin="10"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                Grid.Column="9" Grid.ColumnSpan="1"
+                                />
+                        </Grid>
+                    </ViewCell>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                Text="출석 정보"
+                                Margin="10"
+                                TextColor="White"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                Grid.Column="0" Grid.ColumnSpan="9"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text=">"
+                                Margin="10"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                Grid.Column="9" Grid.ColumnSpan="1"
+                                />
+                        </Grid>
+                    </ViewCell>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                x:Name="appVersion"
+                                Margin="10"
+                                Text="버전 : "
+                                TextColor="White"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                        
+                    </ViewCell>
+                    <ViewCell>
+                        <Grid>
+                            <Label 
+                                Text="무료로 후원하기"
+                                Margin="10"
+                                TextColor="White"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                Grid.Column="0" Grid.ColumnSpan="9"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text=">"
+                                Margin="10"
+                                FontSize="Large"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                Grid.Column="9" Grid.ColumnSpan="1"
+                                />
+                        </Grid>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+</ContentPage>

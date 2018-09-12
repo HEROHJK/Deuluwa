@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace Deuluwa.Droid
 {
-    [Activity(Label = "드루와", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "드루와", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -22,11 +22,6 @@ namespace Deuluwa.Droid
 
             var x = typeof(Xamarin.Forms.Themes.DarkThemeResources);
             x = typeof(Xamarin.Forms.Themes.Android.UnderlineEffect);
-
-            //상태바 색상 변경 코드
-            Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            Window.AddFlags(WindowManagerFlags.DrawsSystemBarBackgrounds);
-            Window.SetStatusBarColor(Android.Graphics.Color.Black);
 
             LoadApplication(new App());
         }

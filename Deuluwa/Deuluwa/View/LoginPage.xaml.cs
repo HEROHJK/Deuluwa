@@ -37,7 +37,7 @@ namespace Deuluwa
 
         public void LogInAction(object sender, EventArgs e)
         {
-            DisplayAlert("미 구현", "구현 중입니다", "확인");
+            Application.Current.MainPage = new NavigationPage(new MainMenuPage());
         }
 	}
 }
