@@ -31,5 +31,10 @@ namespace Deuluwa
                 Application.Current.MainPage = new LoginPage();
             }
         }
+
+        private void AttendanceTapped(object sender, EventArgs e)
+        {
+            this.Navigation.PushAsync(new AttendanceCheckPage());
+        }
     }
 }

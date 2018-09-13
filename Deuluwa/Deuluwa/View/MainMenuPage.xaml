@@ -70,7 +70,7 @@
                         </Grid>
                     </ViewCell>
                     
-                    <ViewCell>
+                    <ViewCell Tapped="AttendanceTapped">
                         <Grid>
                             <Label 
                                 Text="출석 하기"
@@ -79,7 +79,8 @@
                                 FontSize="Large"
                                 FontAttributes="Bold"
                                 Grid.Column="0" Grid.ColumnSpan="9"
-                                VerticalOptions="Center"/>
+                                VerticalOptions="Center"
+                                />
                             <Label
                                 Text=">"
                                 Margin="10"

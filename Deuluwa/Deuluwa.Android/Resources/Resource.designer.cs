@@ -27,8 +27,6 @@ namespace Deuluwa.Droid
 		public static void UpdateIdValues()
 		{
 			global::ModernHttpClient.Resource.String.library_name = global::Deuluwa.Droid.Resource.String.library_name;
-			global::Poz1.NFCForms.Droid.Resource.String.ApplicationName = global::Deuluwa.Droid.Resource.String.ApplicationName;
-			global::Poz1.NFCForms.Droid.Resource.String.Hello = global::Deuluwa.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Deuluwa.Droid.Resource.Attribute.actionBarSize;
 		}
 		
