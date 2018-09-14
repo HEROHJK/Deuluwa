@@ -43,4 +43,4 @@ C# 기반의 크로스 플랫폼 Xamarain.Forms을 이용해 개발하는 프로
 * Xamarin을 이용한 DB제어(추후 파이썬 서버로 수정 예정)
 * Winform을 이용한 관리자 프로그램
 
-## (프로토 타입)[https://ovenapp.io/view/ZuTOW7cSXyGGQAZZ4GlItVUUocaTsaYJ/]
+## [프로토 타입](https://ovenapp.io/view/ZuTOW7cSXyGGQAZZ4GlItVUUocaTsaYJ/)
