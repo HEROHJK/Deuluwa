@@ -27,7 +27,12 @@ namespace Deuluwa.Droid
 		public static void UpdateIdValues()
 		{
 			global::ModernHttpClient.Resource.String.library_name = global::Deuluwa.Droid.Resource.String.library_name;
+			global::Poz1.NFCForms.Droid.Resource.String.ApplicationName = global::Deuluwa.Droid.Resource.String.ApplicationName;
+			global::Poz1.NFCForms.Droid.Resource.String.Hello = global::Deuluwa.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Deuluwa.Droid.Resource.Attribute.actionBarSize;
+			global::ZXing.Mobile.Resource.Id.contentFrame = global::Deuluwa.Droid.Resource.Id.contentFrame;
+			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::Deuluwa.Droid.Resource.Layout.zxingscanneractivitylayout;
+			global::ZXing.Mobile.Resource.Layout.zxingscannerfragmentlayout = global::Deuluwa.Droid.Resource.Layout.zxingscannerfragmentlayout;
 		}
 		
 		public partial class Animation
@@ -2908,6 +2913,9 @@ namespace Deuluwa.Droid
 			// aapt resource value: 0x7f0a0075
 			public const int container = 2131361909;
 			
+			// aapt resource value: 0x7f0a00b4
+			public const int contentFrame = 2131361972;
+			
 			// aapt resource value: 0x7f0a004e
 			public const int contentPanel = 2131361870;
 			
@@ -3022,8 +3030,8 @@ namespace Deuluwa.Droid
 			// aapt resource value: 0x7f0a0048
 			public const int list_item = 2131361864;
 			
-			// aapt resource value: 0x7f0a00b5
-			public const int masked = 2131361973;
+			// aapt resource value: 0x7f0a00b6
+			public const int masked = 2131361974;
 			
 			// aapt resource value: 0x7f0a00a1
 			public const int media_actions = 2131361953;
@@ -3328,8 +3336,8 @@ namespace Deuluwa.Droid
 			// aapt resource value: 0x7f0a000e
 			public const int view_offset_helper = 2131361806;
 			
-			// aapt resource value: 0x7f0a00b4
-			public const int visible = 2131361972;
+			// aapt resource value: 0x7f0a00b5
+			public const int visible = 2131361973;
 			
 			// aapt resource value: 0x7f0a0093
 			public const int volume_item_container = 2131361939;
@@ -3624,6 +3632,12 @@ namespace Deuluwa.Droid
 			
 			// aapt resource value: 0x7f040043
 			public const int Toolbar = 2130968643;
+			
+			// aapt resource value: 0x7f040044
+			public const int zxingscanneractivitylayout = 2130968644;
+			
+			// aapt resource value: 0x7f040045
+			public const int zxingscannerfragmentlayout = 2130968645;
 			
 			static Layout()
 			{

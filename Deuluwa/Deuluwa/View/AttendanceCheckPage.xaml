@@ -4,11 +4,41 @@
              x:Class="Deuluwa.AttendanceCheckPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Button Text="뒤로 가기"
-                    Clicked="Button_Clicked"/>
+            <Label 
+                Text="NFC 카드를 태그하세요"
+                TextColor="White"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Margin="20
+                "/>
+            <Label
+                x:Name="latitude"
+                Text="위도 : "
+                TextColor="White"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Margin="20"
+                />
+            <Label
+                x:Name="longitude"
+                Text="경도 : "
+                TextColor="White"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Margin="20"
+                />
+            <Label
+                x:Name="qrCode"
+                Text="QR CODE : "
+                TextColor="White"
+                FontSize="Large"
+                FontAttributes="Bold"
+                Margin="20"
+                />
+            <Button Text="QR코드로 출석하기"
+                    VerticalOptions="EndAndExpand"/>
+            <Button Text="뒤로가기"
+                    Clicked="BackButton_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
