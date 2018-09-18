@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Deuluwa.ClassInformationPage">
+    <ContentPage.Content>
+        <ListView x:Name="listView" ItemsSource="{Binding ListOfItems}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <!--수업명(왼쪽 위)-->
+                            <Label 
+                                Text="{Binding className}"
+                                Grid.Column="0" Grid.ColumnSpan="5"
+                                Grid.Row="0" Grid.RowSpan="1"
+                                VerticalTextAlignment="Start"
+                                />
+                            <!--진행 요일(오른쪽 위)-->
+                            <Label 
+                                Text="{Binding dayOfWeek}"
+                                Grid.Column="5" Grid.ColumnSpan="5"
+                                Grid.Row="0" Grid.RowSpan="1"
+                                VerticalTextAlignment="Start"
+                                />
+                            <!--수업 기간(왼쪽 아래)-->
+                            <Label 
+                                Text="{Binding classDate}"
+                                Grid.Column="0" Grid.ColumnSpan="5"
+                                Grid.Row="1" Grid.RowSpan="1"
+                                VerticalTextAlignment="Start"
+                                />
+                            <!--수업 시간(오른쪽 아래)-->
+                            <Label 
+                                Text="{Binding classTime}"
+                                Grid.Column="5" Grid.ColumnSpan="5"
+                                Grid.Row="1" Grid.RowSpan="1"
+                                VerticalTextAlignment="Start"
+                                />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>
