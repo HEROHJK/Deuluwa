@@ -7,9 +7,8 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
 class Attendancerecord(models.Model):
-    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', primary_key=True, unique=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', primary_key=True)
     courseid = models.ForeignKey('Course', models.DO_NOTHING, db_column='courseid')
     attendanced = models.BooleanField()
     attendancetime = models.DateField(blank=True, null=True)
@@ -30,17 +29,26 @@ class Course(models.Model):
 
 
 class Courseinformation(models.Model):
-    index = models.ForeignKey(Course, models.DO_NOTHING, db_column='index', primary_key=True, unique=True)
+    index = models.ForeignKey(Course, models.DO_NOTHING, db_column='index', primary_key=True)
     startdate = models.DateField()
     enddate = models.DateField()
     starttime = models.CharField(max_length=4)
     coursetime = models.IntegerField()
     classday = models.CharField(max_length=7)
-    name = models.TextField()
+    cousername = models.TextField()
 
     class Meta:
         managed = False
         db_table = 'courseinformation'
+
+
+class Coursestudent(models.Model):
+    couseid = models.ForeignKey(Course, models.DO_NOTHING, db_column='couseid', primary_key=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid')
+
+    class Meta:
+        managed = False
+        db_table = 'coursestudent'
 
 
 class Lectureroom(models.Model):
@@ -54,26 +62,6 @@ class Lectureroom(models.Model):
         db_table = 'lectureroom'
 
 
-class User(models.Model):
-    id = models .TextField(primary_key=True)
-    password = models.TextField()
-    admin = models.BooleanField()
-
-    class Meta:
-        managed = False
-        db_table = 'user'
-
-
-class Userinformation(models.Model):
-    id = models.ForeignKey(User, models.DO_NOTHING, db_column='id', primary_key=True, unique=True)
-    address = models.TextField(blank=True, null=True)
-    phonenumber = models.TextField(blank=True, null=True)
-    name = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'userinformation'
-
 class Loginsession(models.Model):
     userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', primary_key=True)
     value = models.TextField()
@@ -83,11 +71,23 @@ class Loginsession(models.Model):
         managed = False
         db_table = 'loginsession'
 
-class Coursestudent(models.Model):
-    couseid = models.ForeignKey('Course', models.DO_NOTHING, db_column='couseid', primary_key=True)
-    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid')
+
+class User(models.Model):
+    id = models.TextField(primary_key=True)
+    password = models.TextField()
+    admin = models.BooleanField()
 
     class Meta:
         managed = False
-        db_table = 'coursestudent'
+        db_table = 'user'
 
+
+class Userinformation(models.Model):
+    id = models.ForeignKey(User, models.DO_NOTHING, db_column='id', primary_key=True)
+    address = models.TextField(blank=True, null=True)
+    phonenumber = models.TextField(blank=True, null=True)
+    name = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'userinformation'
