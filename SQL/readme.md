@@ -1,5 +1,15 @@
-# 덤프파일 정보
 
+# SQL 정보
+
+## 사양
+* 하드웨어 - 라즈베리파이 2B
+* PostgreSQL 9.6.10 on armv7l-unknown-linux-gnueabihf, compiled by gcc (Raspbian 6.3.0-18+rpi1) 6.3.0 20170516, 32-bit
+
+## 왜 PostgreSQL인가?
+* **처음 써보는 DB**
+* 그중, 오픈소스이기 때문에 라이센스에 대한 부담이 없음
+* 무료중에는, MySQL 다음으로 많은 사용자
+* (사실 처음써보는거라 아는게 별로 없음)
 
 ## 사용 한 덤프 쿼리
 `sudo -u postgres pg_dump deuluwa > filename.dump`
@@ -49,7 +59,8 @@
 ### 수업 상세(courseInformation)
 |물리이름|논리이름|비고|
 |--|--|--|
-|index|수업 인덱스|int, not null, primary key, 수업 외래 키|
+|index|인덱스|int, primary key|
+|courseindex|수업 인덱스|int, not null, 수업 외래 키|
 |startDate|시작일|date, not null|
 |endDate|종료일|date, not null|
 |startTime|수업 시작시간|char[4] (HH:MM), not null|
@@ -78,3 +89,4 @@
 |userId|사용자 ID|text, not null, primnary key,  사용자 외래 키|
 |value|세션값|text, not null|
 |lastTime|마지막 응답 시간|date, not null|
+
