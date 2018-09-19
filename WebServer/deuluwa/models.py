@@ -36,6 +36,7 @@ class Courseinformation(models.Model):
     starttime = models.CharField(max_length=4)
     coursetime = models.IntegerField()
     classday = models.CharField(max_length=7)
+    name = models.TextField()
 
     class Meta:
         managed = False
@@ -72,3 +73,21 @@ class Userinformation(models.Model):
     class Meta:
         managed = False
         db_table = 'userinformation'
+
+class Loginsession(models.Model):
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', primary_key=True)
+    value = models.TextField()
+    lasttime = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = 'loginsession'
+
+class Coursestudent(models.Model):
+    couseid = models.ForeignKey('Course', models.DO_NOTHING, db_column='couseid', primary_key=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid')
+
+    class Meta:
+        managed = False
+        db_table = 'coursestudent'
+
