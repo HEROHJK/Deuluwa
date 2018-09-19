@@ -28,6 +28,7 @@
 |id|사용자 id|text, primary key, 사용자 외래 키|
 |address|주소|text|
 |phoneNumber|전화번호|text|
+|name|이름|text|
 
 ### 강의실(lectureRoom)
 |물리이름|논리이름|비고|
@@ -62,3 +63,9 @@
 |courseId|수업인덱스|int, not null, 수업 외래 키|
 |attendanced|출석 여부|boolean, not null|
 |attendanceTime| 출석 시간| date|
+
+### 수강생(courseStudent)
+|물리이름|논리이름|비고|
+|--|--|--|
+|courseId|수업인덱스|int, not null, primary key, 수업 외래키|
+|userId|사용자 ID|text, not null, primary key, 사용자 외래키|
