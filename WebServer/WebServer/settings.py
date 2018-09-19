@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+import WebServer.DBInformation
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -77,14 +79,7 @@ WSGI_APPLICATION = 'WebServer.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'deuluwa',
-        'USER': 'django',
-        'PASSWORD': 'django1234',
-        'HOST': 'silco.co.kr',
-        'PORT': '5432',
-    }
+    WebServer.DBInformation.DBINFO['default']
 }
 
 
