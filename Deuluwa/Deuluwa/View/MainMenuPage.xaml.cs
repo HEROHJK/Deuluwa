@@ -94,8 +94,10 @@ namespace Deuluwa
                 DependencyService.Get<ToastMessage>().ShortToast("한번 더 누르면 프로그램을 종료합니다.");
                 backButtonPressed = true;
                 //스레드 실행
-                Thread t1 = new Thread(new ThreadStart(Run));
-                t1.IsBackground = true;
+                Thread t1 = new Thread(new ThreadStart(Run))
+                {
+                    IsBackground = true
+                };
                 t1.Start();
                 return true;
             }

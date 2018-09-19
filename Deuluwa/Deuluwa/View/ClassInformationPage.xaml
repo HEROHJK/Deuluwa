@@ -10,31 +10,45 @@
                         <Grid>
                             <!--수업명(왼쪽 위)-->
                             <Label 
-                                Text="{Binding className}"
+                                Margin="10,0,10,0"
+                                Text="{Binding coursename}"
                                 Grid.Column="0" Grid.ColumnSpan="5"
                                 Grid.Row="0" Grid.RowSpan="1"
-                                VerticalTextAlignment="Start"
+                                TextColor="White"
+                                FontSize="Medium"
+                                HorizontalTextAlignment="Start"
+                                VerticalTextAlignment="Center"
                                 />
                             <!--진행 요일(오른쪽 위)-->
                             <Label 
-                                Text="{Binding dayOfWeek}"
+                                Margin="10,0,10,0"
+                                Text="{Binding classday}"
                                 Grid.Column="5" Grid.ColumnSpan="5"
                                 Grid.Row="0" Grid.RowSpan="1"
-                                VerticalTextAlignment="Start"
+                                TextColor="White"
+                                FontSize="Medium"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
                                 />
                             <!--수업 기간(왼쪽 아래)-->
                             <Label 
-                                Text="{Binding classDate}"
+                                Margin="10,0,10,0"
+                                Text="{Binding startdate}"
                                 Grid.Column="0" Grid.ColumnSpan="5"
                                 Grid.Row="1" Grid.RowSpan="1"
-                                VerticalTextAlignment="Start"
+                                TextColor="White"
+                                HorizontalTextAlignment="Start"
+                                VerticalTextAlignment="Center"
                                 />
                             <!--수업 시간(오른쪽 아래)-->
                             <Label 
-                                Text="{Binding classTime}"
+                                Margin="10,0,10,0"
+                                Text="{Binding starttime}"
                                 Grid.Column="5" Grid.ColumnSpan="5"
                                 Grid.Row="1" Grid.RowSpan="1"
-                                VerticalTextAlignment="Start"
+                                TextColor="White"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
                                 />
                         </Grid>
                     </ViewCell>

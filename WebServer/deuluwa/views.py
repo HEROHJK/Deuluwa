@@ -40,7 +40,7 @@ def getUserAddInfo(request):
 
         jsonData = {"address":address, "phonenumber":phone, "name":name}
         message = json.dumps(jsonData,ensure_ascii=False)
-        
+
     except Exception as e:
         print("실패 원인 : " + str(e))
         message = 'failed'
