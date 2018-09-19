@@ -361,13 +361,14 @@ ALTER SEQUENCE public.course_index_seq OWNED BY public.course.index;
 --
 
 CREATE TABLE public.courseinformation (
-    index integer NOT NULL,
+    courseindex integer NOT NULL,
     startdate date NOT NULL,
     enddate date NOT NULL,
     starttime character(4) DEFAULT '0000'::bpchar NOT NULL,
     coursetime integer NOT NULL,
     classday character(7) DEFAULT 'FFFFFFF'::bpchar NOT NULL,
-    cousername text NOT NULL
+    coursename text NOT NULL,
+    index integer NOT NULL
 );
 
 
@@ -381,10 +382,10 @@ COMMENT ON TABLE public.courseinformation IS '수업 상세정보';
 
 
 --
--- Name: COLUMN courseinformation.index; Type: COMMENT; Schema: public; Owner: herohjk
+-- Name: COLUMN courseinformation.courseindex; Type: COMMENT; Schema: public; Owner: herohjk
 --
 
-COMMENT ON COLUMN public.courseinformation.index IS '수업 고유id';
+COMMENT ON COLUMN public.courseinformation.courseindex IS '수업 고유id';
 
 
 --
@@ -423,12 +424,34 @@ COMMENT ON COLUMN public.courseinformation.classday IS '수업 진행 요일';
 
 
 --
+-- Name: courseinformation_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
+--
+
+CREATE SEQUENCE public.courseinformation_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.courseinformation_index_seq OWNER TO herohjk;
+
+--
+-- Name: courseinformation_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
+--
+
+ALTER SEQUENCE public.courseinformation_index_seq OWNED BY public.courseinformation.index;
+
+
+--
 -- Name: coursestudent; Type: TABLE; Schema: public; Owner: herohjk
 --
 
 CREATE TABLE public.coursestudent (
     couseid integer NOT NULL,
-    userid text NOT NULL
+    userid text NOT NULL,
+    index integer NOT NULL
 );
 
 
@@ -453,6 +476,34 @@ COMMENT ON COLUMN public.coursestudent.couseid IS '수업인덱스';
 --
 
 COMMENT ON COLUMN public.coursestudent.userid IS '사용자ID';
+
+
+--
+-- Name: COLUMN coursestudent.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.coursestudent.index IS '인덱스';
+
+
+--
+-- Name: coursestudent_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
+--
+
+CREATE SEQUENCE public.coursestudent_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.coursestudent_index_seq OWNER TO herohjk;
+
+--
+-- Name: coursestudent_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
+--
+
+ALTER SEQUENCE public.coursestudent_index_seq OWNED BY public.coursestudent.index;
 
 
 --
@@ -821,6 +872,20 @@ ALTER TABLE ONLY public.course ALTER COLUMN index SET DEFAULT nextval('public.co
 
 
 --
+-- Name: courseinformation index; Type: DEFAULT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.courseinformation ALTER COLUMN index SET DEFAULT nextval('public.courseinformation_index_seq'::regclass);
+
+
+--
+-- Name: coursestudent index; Type: DEFAULT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.coursestudent ALTER COLUMN index SET DEFAULT nextval('public.coursestudent_index_seq'::regclass);
+
+
+--
 -- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: django
 --
 
@@ -1008,6 +1073,8 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 --
 
 COPY public.course (index, lectureindex, lectureroomindex) FROM stdin;
+1	herohjk	1
+2	herohjk	1
 \.
 
 
@@ -1015,23 +1082,42 @@ COPY public.course (index, lectureindex, lectureroomindex) FROM stdin;
 -- Name: course_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
 --
 
-SELECT pg_catalog.setval('public.course_index_seq', 1, false);
+SELECT pg_catalog.setval('public.course_index_seq', 2, true);
 
 
 --
 -- Data for Name: courseinformation; Type: TABLE DATA; Schema: public; Owner: herohjk
 --
 
-COPY public.courseinformation (index, startdate, enddate, starttime, coursetime, classday, cousername) FROM stdin;
+COPY public.courseinformation (courseindex, startdate, enddate, starttime, coursetime, classday, coursename, index) FROM stdin;
+1	2018-09-01	2018-12-31	1630	90	TFTFTFF	영어1	1
+2	2018-09-01	2018-12-31	1800	90	TFTFTFF	외국인 회화	2
 \.
+
+
+--
+-- Name: courseinformation_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.courseinformation_index_seq', 2, true);
 
 
 --
 -- Data for Name: coursestudent; Type: TABLE DATA; Schema: public; Owner: herohjk
 --
 
-COPY public.coursestudent (couseid, userid) FROM stdin;
+COPY public.coursestudent (couseid, userid, index) FROM stdin;
+1	herohjk	1
+1	testuser	2
+2	herohjk	4
 \.
+
+
+--
+-- Name: coursestudent_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.coursestudent_index_seq', 4, true);
 
 
 --
@@ -1278,19 +1364,19 @@ ALTER TABLE ONLY public.course
 
 
 --
--- Name: courseinformation courseinformation_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+-- Name: courseinformation courseinformation_pk; Type: CONSTRAINT; Schema: public; Owner: herohjk
 --
 
 ALTER TABLE ONLY public.courseinformation
-    ADD CONSTRAINT courseinformation_pkey PRIMARY KEY (index);
+    ADD CONSTRAINT courseinformation_pk PRIMARY KEY (index);
 
 
 --
--- Name: coursestudent coursestudent_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+-- Name: coursestudent coursestudent_pk; Type: CONSTRAINT; Schema: public; Owner: herohjk
 --
 
 ALTER TABLE ONLY public.coursestudent
-    ADD CONSTRAINT coursestudent_pkey PRIMARY KEY (couseid);
+    ADD CONSTRAINT coursestudent_pk PRIMARY KEY (index);
 
 
 --
@@ -1533,7 +1619,7 @@ ALTER TABLE ONLY public.auth_user_user_permissions
 --
 
 ALTER TABLE ONLY public.courseinformation
-    ADD CONSTRAINT courseinformationindex_courseindex FOREIGN KEY (index) REFERENCES public.course(index);
+    ADD CONSTRAINT courseinformationindex_courseindex FOREIGN KEY (courseindex) REFERENCES public.course(index);
 
 
 --
