@@ -29,13 +29,14 @@ class Course(models.Model):
 
 
 class Courseinformation(models.Model):
-    index = models.ForeignKey(Course, models.DO_NOTHING, db_column='index', primary_key=True)
+    courseindex = models.ForeignKey('Course', models.DO_NOTHING, db_column='courseindex')
     startdate = models.DateField()
     enddate = models.DateField()
     starttime = models.CharField(max_length=4)
     coursetime = models.IntegerField()
     classday = models.CharField(max_length=7)
-    cousername = models.TextField()
+    coursename = models.TextField()
+    index = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
