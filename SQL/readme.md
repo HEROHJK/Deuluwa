@@ -55,6 +55,13 @@
 |startTime|수업 시작시간|char[4] (HH:MM), not null|
 |courseTime|수업 진행 시간(분)|int, not null|
 |classDay|수업 요일|char[7] (참,거짓), not null|
+|coursename|수업명|text, not null|
+
+### 수강생(courseStudent)
+|물리이름|논리이름|비고|
+|--|--|--|
+|courseId|수업인덱스|int, not null, primary key, 수업 외래키|
+|userId|사용자 ID|text, not null, primary key, 사용자 외래키|
 
 ### 출석 기록(attendanceRecord)
 |물리이름|논리이름|비고|
@@ -64,8 +71,10 @@
 |attendanced|출석 여부|boolean, not null|
 |attendanceTime| 출석 시간| date|
 
-### 수강생(courseStudent)
+
+### 로그인세션(loginSession)
 |물리이름|논리이름|비고|
 |--|--|--|
-|courseId|수업인덱스|int, not null, primary key, 수업 외래키|
-|userId|사용자 ID|text, not null, primary key, 사용자 외래키|
+|userId|사용자 ID|text, not null, primnary key,  사용자 외래 키|
+|value|세션값|text, not null|
+|lastTime|마지막 응답 시간|date, not null|
