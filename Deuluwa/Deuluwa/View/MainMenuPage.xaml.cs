@@ -39,6 +39,7 @@ namespace Deuluwa
             var answer = await DisplayAlert("로그아웃", "로그아웃 하시겠습니까?", "예", "아뇨");
             if (answer)
             {
+                LoginManager.AutoLoginDisable();
                 Application.Current.MainPage = new LoginPage();
             }
         }

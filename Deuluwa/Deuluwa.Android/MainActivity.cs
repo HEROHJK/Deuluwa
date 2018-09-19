@@ -26,9 +26,6 @@ namespace Deuluwa.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            var x = typeof(Xamarin.Forms.Themes.DarkThemeResources);
-            x = typeof(Xamarin.Forms.Themes.Android.UnderlineEffect);
-
             NfcManager NfcManager = (NfcManager)Android.App.Application.Context.GetSystemService(Context.NfcService);
             NFCdevice = NfcManager.DefaultAdapter;
 
