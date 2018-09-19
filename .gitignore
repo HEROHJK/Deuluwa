@@ -328,5 +328,4 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # DB보안으로 인한 세팅파일 업로드 안함
-settings.py
 /WebServer/WebServer/DBInformation.py

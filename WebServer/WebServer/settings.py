@@ -78,9 +78,7 @@ WSGI_APPLICATION = 'WebServer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    WebServer.DBInformation.DBINFO['default']
-}
+DATABASES = WebServer.DBInformation.DBINFO
 
 
 # Password validation
