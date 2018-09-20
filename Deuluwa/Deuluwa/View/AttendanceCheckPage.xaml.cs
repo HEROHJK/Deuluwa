@@ -18,10 +18,8 @@ namespace Deuluwa
         public AttendanceCheckPage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
             latitude.IsVisible = false;
             longitude.IsVisible = false;
-
             device = DependencyService.Get<INfcForms>();
             device.NewTag += HandleNewTag;
 

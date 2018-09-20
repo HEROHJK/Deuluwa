@@ -13,40 +13,19 @@ namespace Deuluwa.iOS
 {
     public class CustomColorSwitchIos : SwitchRenderer
     {
-        private Color greyColor = new Color(215, 218, 220);
-        private Color greenColor = new Color(32, 156, 68);
-        private Color whiteColor = new Color(255, 255, 255);
-
         protected override void OnElementChanged(ElementChangedEventArgs<Switch> e)
         {
-            Element.Toggled += ElementToggled;
-
             base.OnElementChanged(e);
 
-            if (Control != null)
-            {
-                UpdateUiSwitchColor();
-            }
-        }
+            if (e.OldElement != null || e.NewElement == null) return;
 
-        private void ElementToggled(object sender, ToggledEventArgs e)
-        {
-            UpdateUiSwitchColor();
-        }
+            CustomColorSwitch s = Element as CustomColorSwitch;
 
-        private void UpdateUiSwitchColor()
-        {
-            var temp = Element as Switch;
+            UISwitch sw = new UISwitch();
+            sw.ThumbTintColor = s.SwitchThumbColor.ToUIColor();
+            sw.OnTintColor = s.SwitchOnColor.ToUIColor();
 
-            if (temp.IsToggled)
-            {
-                Control.ThumbTintColor = greenColor.ToUIColor();
-                Control.OnTintColor = greyColor.ToUIColor();
-            }
-            else
-            {
-                Control.ThumbTintColor = whiteColor.ToUIColor();
-            }
+            SetNativeControl(sw);
         }
     }
 }

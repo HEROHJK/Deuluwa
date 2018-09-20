@@ -22,6 +22,7 @@ namespace Deuluwa
             idEntry.Completed += IdEntry_Completed;
             passwordEntry.Completed += PasswordEntry_Completed;
             loginButton.Clicked += LoginButton_Clicked;
+            
 
             if(IsAutoLogin())
             {
@@ -114,7 +115,10 @@ namespace Deuluwa
                 Constants.shared.DeleteLoginInformation();
                 Constants.shared.InsertData("id", id);
                 Constants.shared.InsertData("password", password);
-                Application.Current.MainPage = new NavigationPage(new MainMenuPage());
+                Application.Current.MainPage = new NavigationPage(new MainMenuPage())
+                {
+                    BarTextColor = Color.White,
+                };
             }
             else
             {

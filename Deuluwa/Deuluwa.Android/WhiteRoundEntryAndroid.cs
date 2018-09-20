@@ -31,7 +31,7 @@ namespace Deuluwa.Droid
                 var gradientDrawable = new GradientDrawable();
                 gradientDrawable.SetCornerRadius(30f);
                 gradientDrawable.SetStroke(5, Android.Graphics.Color.White);
-                gradientDrawable.SetColor(Android.Graphics.Color.Black);
+                //gradientDrawable.SetColor(Android.Graphics.Color.Black);
                 Control.SetBackground(gradientDrawable);
 
                 Control.SetPadding(50, Control.PaddingTop, Control.PaddingRight, Control.PaddingBottom);

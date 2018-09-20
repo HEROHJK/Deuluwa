@@ -22,7 +22,6 @@ namespace Deuluwa.iOS
                 Control.Layer.CornerRadius = 10;
                 Control.Layer.BorderWidth = 3f;
                 Control.Layer.BorderColor = Color.White.ToCGColor();
-                Control.Layer.BackgroundColor = Color.Black.ToCGColor();
 
                 Control.LeftView = new UIView(new CGRect(0, 0, 10, 0));
                 Control.LeftViewMode = UITextFieldViewMode.Always;

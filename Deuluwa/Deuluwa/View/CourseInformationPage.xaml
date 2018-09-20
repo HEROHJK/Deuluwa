@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Deuluwa.View.CourseInformationPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <!--강사 이미지-->
+            <!--수업 라벨-->
+            <!--수업명-->
+            <!--강사명 라벨-->
+            <!--강사명-->
+            <!--강의 시간 라벨-->
+            <!--강의 시간-->
+            <!--강의실 라벨-->
+            <!--강의실-->
+            <!--최근 출석정보 라벨-->
+            <!--최근 출석정보 TableView-->
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

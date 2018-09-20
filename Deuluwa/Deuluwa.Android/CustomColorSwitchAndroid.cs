@@ -8,39 +8,44 @@ namespace Deuluwa.Droid
 {
     public class CustomColorSwitchAndroid : SwitchRenderer
     {
-        private Android.Graphics.Color greyColor = new Android.Graphics.Color(215, 218, 220);
-        private Android.Graphics.Color greenColor = new Android.Graphics.Color(32, 156, 68);
-        private Android.Graphics.Color whiteColor = new Android.Graphics.Color(255, 255, 255);
-
-        public CustomColorSwitchAndroid(Android.Content.Context context) : base(context)
-        {
-
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            this.Control.CheckedChange -= this.OnCheckedChange;
-            base.Dispose(disposing);
-        }
-
+        private CustomColorSwitch view;
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Switch> e)
         {
             base.OnElementChanged(e);
-
-            if (Control != null)
+            if (e.OldElement != null || e.NewElement == null)
+                return;
+            view = (CustomColorSwitch)Element;
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.JellyBean)
             {
-                if (this.Control.Checked)
+                if (this.Control != null)
                 {
-                    this.Control.ThumbDrawable.SetColorFilter(greenColor, PorterDuff.Mode.SrcAtop);
-                    this.Control.TrackDrawable.SetColorFilter(greyColor, PorterDuff.Mode.SrcAtop);
+                    if (this.Control.Checked)
+                    {
+                        this.Control.TrackDrawable.SetColorFilter(view.SwitchOnColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
+                    }
+                    else
+                    {
+                        this.Control.TrackDrawable.SetColorFilter(view.SwitchOffColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
+                    }
+                    this.Control.CheckedChange += this.OnCheckedChange;
+                    UpdateSwitchThumbImage(view);
                 }
-                else
-                {
-                    this.Control.ThumbDrawable.SetColorFilter(whiteColor, PorterDuff.Mode.SrcAtop);
-                    this.Control.TrackDrawable.SetColorFilter(greyColor, PorterDuff.Mode.SrcAtop);
-                }
+                //Control.TrackDrawable.SetColorFilter(view.SwitchBGColor.ToAndroid(), PorterDuff.Mode.Multiply);  
+            }
+        }
 
-                this.Control.CheckedChange += this.OnCheckedChange;
+        private void UpdateSwitchThumbImage(CustomColorSwitch view)
+        {
+            if (!string.IsNullOrEmpty(view.SwitchThumbImage))
+            {
+                view.SwitchThumbImage = view.SwitchThumbImage.Replace(".jpg", "").Replace(".png", "");
+                int imgid = (int)typeof(Resource.Drawable).GetField(view.SwitchThumbImage).GetValue(null);
+                //Control.SetThumbResource(Resource.Drawable.icon);
+            }
+            else
+            {
+                Control.ThumbDrawable.SetColorFilter(view.SwitchThumbColor.ToAndroid(), PorterDuff.Mode.Multiply);
+                // Control.SetTrackResource(Resource.Drawable.track);  
             }
         }
 
@@ -48,12 +53,17 @@ namespace Deuluwa.Droid
         {
             if (this.Control.Checked)
             {
-                this.Control.ThumbDrawable.SetColorFilter(greenColor, PorterDuff.Mode.SrcAtop);
+                this.Control.TrackDrawable.SetColorFilter(view.SwitchOnColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
             }
             else
             {
-                this.Control.ThumbDrawable.SetColorFilter(greyColor, PorterDuff.Mode.SrcAtop);
+                this.Control.TrackDrawable.SetColorFilter(view.SwitchOffColor.ToAndroid(), PorterDuff.Mode.SrcAtop);
             }
+        }
+        protected override void Dispose(bool disposing)
+        {
+            this.Control.CheckedChange -= this.OnCheckedChange;
+            base.Dispose(disposing);
         }
     }
 }

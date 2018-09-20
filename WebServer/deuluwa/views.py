@@ -51,7 +51,7 @@ def getUserCourseList(request):
     message = 'failed'
     try :
         inputId = request.GET.get('id')
-        command = "SELECT * FROM courseinformation, coursestudent WHERE courseinformation.index = coursestudent.couseid AND userid = '{id}';".format(id=inputId)
+        command = "SELECT * FROM courseinformation, coursestudent WHERE courseinformation.courseindex = coursestudent.couseid AND userid = '{id}';".format(id=inputId)
 
         userClasses = Courseinformation.objects.raw(command)
 
@@ -60,7 +60,8 @@ def getUserCourseList(request):
         for userClass in userClasses:
             learningTime = getEndTime(userClass.starttime, userClass.coursetime)
             userClassesList.append(
-                {'coursename' : userClass.coursename,
+                {'index':userClass.index,
+                 'coursename' : userClass.coursename,
                  'classday' : userClass.classday,
                  'startdate' : userClass.startdate.strftime("%Y-%m-%d"),
                  'enddate' : userClass.enddate.strftime("%Y-%m-%d"),

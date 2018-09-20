@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,20 +15,26 @@ namespace Deuluwa
 		public ClassInformationPage ()
 		{
 			InitializeComponent ();
-            NavigationPage.SetHasNavigationBar(this, false);
             listView.RowHeight = (int)App.Current.MainPage.Height / 8;
             JoinHttp();
         }
 
         private List<CustomClass> CoursesLoad(string httpString)
         {
-            List<CustomClass> list = new List<CustomClass>();
+            List<CustomClassJson> jsonList = new List<CustomClassJson>();
 
             try
             {
-                list = JsonConvert.DeserializeObject<List<CustomClass>>(httpString);
+                jsonList = JsonConvert.DeserializeObject<List<CustomClassJson>>(httpString);
             }
             catch { }
+
+            List<CustomClass> list = new List<CustomClass>();
+
+            foreach(CustomClassJson json in jsonList)
+            {
+                list.Add(new CustomClass(json));
+            }
 
             return list;
         }
@@ -53,6 +56,5 @@ namespace Deuluwa
                 listView.ItemsSource = CoursesLoad(content);
             }
         }
-
 	}
 }

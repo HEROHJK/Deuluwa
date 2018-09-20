@@ -27,7 +27,6 @@ namespace Deuluwa
         public MainMenuPage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
             logoutButton.Clicked += LogoutButton_Clicked;
             mainTableView.RowHeight = (int)App.Current.MainPage.Height / 7;
             DataLoad();
@@ -106,7 +105,7 @@ namespace Deuluwa
 
         private void Run()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
             backButtonPressed = false;
         }
     }

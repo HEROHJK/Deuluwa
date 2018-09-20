@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Deuluwa.ClassInformationPage">
+             x:Class="Deuluwa.ClassInformationPage"
+             Title="수업 정보">
     <ContentPage.Content>
         <ListView x:Name="listView" ItemsSource="{Binding ListOfItems}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid>
+                            <!--인덱스(숨김)-->
+                            <Label
+                                Text="{Binding index}"
+                                IsVisible="False"
+                                />
                             <!--수업명(왼쪽 위)-->
                             <Label 
                                 Margin="10,0,10,0"
@@ -33,7 +39,7 @@
                             <!--수업 기간(왼쪽 아래)-->
                             <Label 
                                 Margin="10,0,10,0"
-                                Text="{Binding startdate}"
+                                Text="{Binding coursedate}"
                                 Grid.Column="0" Grid.ColumnSpan="5"
                                 Grid.Row="1" Grid.RowSpan="1"
                                 TextColor="White"
@@ -43,7 +49,7 @@
                             <!--수업 시간(오른쪽 아래)-->
                             <Label 
                                 Margin="10,0,10,0"
-                                Text="{Binding starttime}"
+                                Text="{Binding coursetime}"
                                 Grid.Column="5" Grid.ColumnSpan="5"
                                 Grid.Row="1" Grid.RowSpan="1"
                                 TextColor="White"
