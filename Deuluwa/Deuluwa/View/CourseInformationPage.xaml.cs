@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Deuluwa.View
+namespace Deuluwa
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CourseInformationPage : ContentPage
 	{
-		public CourseInformationPage ()
+		public CourseInformationPage (string index)
 		{
 			InitializeComponent ();
 		}

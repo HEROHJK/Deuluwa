@@ -7,3 +7,15 @@ def getEndTime(startTimeStr, courseTime):
     endTime = startTime + dt.timedelta(minutes=courseTime)
 
     return (startTime,endTime)
+
+def getTime(timeStr):
+    time = dt.datetime.strptime(timeStr[:4], '%H%M')
+
+    return time
+
+def tardyCheck(startTime, endTime, time):
+    if time > endTime:
+        return 2
+    elif time > startTime:
+        return 1
+    return 0

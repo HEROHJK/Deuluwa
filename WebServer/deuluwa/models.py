@@ -8,10 +8,11 @@
 from django.db import models
 
 class Attendancerecord(models.Model):
-    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid', primary_key=True)
-    courseid = models.ForeignKey('Course', models.DO_NOTHING, db_column='courseid')
-    attendanced = models.BooleanField()
-    attendancetime = models.DateField(blank=True, null=True)
+    index = models.AutoField(primary_key=True)
+    userid = models.ForeignKey('User', models.DO_NOTHING, db_column='userid')
+    courseid = models.ForeignKey('Course', models.DO_NOTHING, db_column='courseid', blank=True, null=True)
+    checkdate = models.DateField()
+    checktime = models.CharField(max_length=5)
 
     class Meta:
         managed = False

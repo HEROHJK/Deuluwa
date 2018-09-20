@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from deuluwa.serializers import UserSerializer
-from deuluwa.models import User, Userinformation, Courseinformation
+from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord
 from django.http import HttpResponse
-from deuluwa.funcs import getEndTime
-from datetime import datetime
+from deuluwa.funcs import getEndTime, getTime, tardyCheck
+from django.db import connection
 import json
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -11,7 +11,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
 def getUserInfo(request):
-    message = 'failed'
     try :
         inputId = request.GET.get('id')
         inputPw = request.GET.get('password')
@@ -28,7 +27,6 @@ def getUserInfo(request):
     return HttpResponse(message)
 
 def getUserAddInfo(request):
-    message = 'failed'
     try :
         inputId = request.GET.get('id')
 
@@ -48,7 +46,6 @@ def getUserAddInfo(request):
     return HttpResponse(message)
 
 def getUserCourseList(request):
-    message = 'failed'
     try :
         inputId = request.GET.get('id')
         command = "SELECT * FROM courseinformation, coursestudent WHERE courseinformation.courseindex = coursestudent.couseid AND userid = '{id}';".format(id=inputId)
@@ -74,5 +71,55 @@ def getUserCourseList(request):
     except Exception as e:
         print("실패 원인 : " + str(e))
         message = 'failed'
+
+    return HttpResponse(message)
+
+def getCourseInformation(request):
+    try:
+        inputCourseId = request.GET.get('courseid')
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT courseinformation.coursename, userinformation.name teacher, courseinformation.starttime, courseinformation.coursetime, lectureroom.name lectureroomname FROM courseinformation, userinformation, lectureroom, course WHERE courseinformation.courseindex = course.index AND course.lectureroomindex = lectureroom.index AND course.lectureindex = userinformation.id AND course.index = '{index}';".format(index=inputCourseId))
+
+        raw = cursor.fetchone()
+
+        jsondata = {'coursename':str(raw[0]),
+                    'teacher':str(raw[1]),
+                    'starttime':str(raw[2]),
+                    'coursetime':str(raw[3]),
+                    'lectureroomname':str(raw[4])}
+
+        message = json.dumps(jsondata,ensure_ascii=False)
+
+    except Exception as e:
+        print('실패 원인 : ' + str(e))
+        message = 'failed'
+
+    return HttpResponse(message)
+
+def getAttendanceCheckList(request):
+    try:
+        inputCourseId = request.GET.get('courseid')
+        inputId = request.GET.get('id')
+
+        objects = Attendancerecord.objects.filter(userid=inputId).filter(courseid=inputCourseId).order_by('-checkdate')[:5]
+
+        courseTime = getEndTime(Courseinformation.objects.filter(courseindex=inputCourseId)[0].starttime,
+                                   Courseinformation.objects.filter(courseindex=inputCourseId)[0].coursetime)
+
+        attendanceList = []
+
+        for result in objects:
+
+            checkTime = getTime(result.checktime)
+            attendanceList.append({
+                'checkdate' : str(result.checkdate),
+                'checktime' : str(result.checktime),
+                'attendance' : str(tardyCheck(courseTime[0], courseTime[1], checkTime))
+            })
+
+        message = json.dumps(attendanceList, ensure_ascii=False)
+    except Exception as e:
+        message = 'failed : ' + str(e)
 
     return HttpResponse(message)

@@ -28,5 +28,7 @@ urlpatterns = [
     url(r'^api-auth/',include('rest_framework.urls', namespace='rest_framework')),
     url(r'^user/$', views.getUserInfo),
     url(r'^userinfo/$', views.getUserAddInfo),
-    url(r'^usercourselist/$', views.getUserCourseList)
+    url(r'^usercourselist/$', views.getUserCourseList),
+    url(r'^courseinformation/$',views.getCourseInformation),
+    url(r'^getuserattendancelist/$', views.getAttendanceCheckList)
 ]
