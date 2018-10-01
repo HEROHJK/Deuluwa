@@ -30,5 +30,5 @@ urlpatterns = [
     url(r'^userinfo/$', views.getUserAddInfo),
     url(r'^usercourselist/$', views.getUserCourseList),
     url(r'^courseinformation/$',views.getCourseInformation),
-    url(r'^getuserattendancelist/$', views.getAttendanceCheckList)
+    url(r'^userattendancelist/$', views.getAttendanceCheckList)
 ]

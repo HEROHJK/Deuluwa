@@ -77,7 +77,6 @@ def getUserCourseList(request):
 def getCourseInformation(request):
     try:
         inputCourseId = request.GET.get('courseid')
-
         cursor = connection.cursor()
         cursor.execute("SELECT courseinformation.coursename, userinformation.name teacher, courseinformation.starttime, courseinformation.coursetime, lectureroom.name lectureroomname FROM courseinformation, userinformation, lectureroom, course WHERE courseinformation.courseindex = course.index AND course.lectureroomindex = lectureroom.index AND course.lectureindex = userinformation.id AND course.index = '{index}';".format(index=inputCourseId))
 
@@ -111,7 +110,7 @@ def getAttendanceCheckList(request):
 
         for result in objects:
 
-            checkTime = getTime(result.checktime)
+            checkTime = getTime(result.checktime.strip())
             attendanceList.append({
                 'checkdate' : str(result.checkdate),
                 'checktime' : str(result.checktime),

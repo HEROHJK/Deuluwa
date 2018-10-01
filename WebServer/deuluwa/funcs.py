@@ -9,7 +9,7 @@ def getEndTime(startTimeStr, courseTime):
     return (startTime,endTime)
 
 def getTime(timeStr):
-    time = dt.datetime.strptime(timeStr[:4], '%H%M')
+    time = dt.datetime.strptime(timeStr, '%H%M')
 
     return time
 

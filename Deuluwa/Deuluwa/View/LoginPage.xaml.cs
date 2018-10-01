@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,7 +17,8 @@ namespace Deuluwa
 
             client = new HttpClient
             {
-                MaxResponseContentBufferSize = 256000
+                MaxResponseContentBufferSize = 256000,
+                Timeout = TimeSpan.FromSeconds(3)
             };
 
             idEntry.Completed += IdEntry_Completed;
@@ -88,41 +90,47 @@ namespace Deuluwa
             var uri = new Uri(url);
 
             bool result = false;
-
-            var response = await client.GetAsync(uri);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
-                if (content == "success") result = true;
-                else result = false;
-            }
-            else result = false;
-
-            if(result)
-            {
-                Console.WriteLine("스위치 토글 여부 : " + autoLoginSwitch.IsToggled);
-                //로그인 정보 저장
-                if (autoLoginSwitch.IsToggled)
+                var response = await client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
                 {
-                    LoginManager.AutoLoginEnable(id, password);
+                    var content = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(content);
+                    if (content == "success") result = true;
+                    else result = false;
+                }
+                else result = false;
+
+                if (result)
+                {
+                    Console.WriteLine("스위치 토글 여부 : " + autoLoginSwitch.IsToggled);
+                    //로그인 정보 저장
+                    if (autoLoginSwitch.IsToggled)
+                    {
+                        LoginManager.AutoLoginEnable(id, password);
+                    }
+                    else
+                    {
+                        LoginManager.AutoLoginDisable();
+                    }
+
+                    Constants.shared.DeleteLoginInformation();
+                    Constants.shared.InsertData("id", id);
+                    Constants.shared.InsertData("password", password);
+                    Application.Current.MainPage = new NavigationPage(new MainMenuPage())
+                    {
+                        BarTextColor = Color.White,
+                    };
                 }
                 else
                 {
-                    LoginManager.AutoLoginDisable();
+                    await DisplayAlert("로그인 실패", "ID와 패스워드를 다시한번 확인 해 줄래요?", "네 ㅎ");
                 }
-
-                Constants.shared.DeleteLoginInformation();
-                Constants.shared.InsertData("id", id);
-                Constants.shared.InsertData("password", password);
-                Application.Current.MainPage = new NavigationPage(new MainMenuPage())
-                {
-                    BarTextColor = Color.White,
-                };
             }
-            else
+            catch
             {
-                await DisplayAlert("로그인 실패", "ID와 패스워드를 다시한번 확인 해 줄래요?", "네 ㅎ");
+                await DisplayAlert("로그인 실패", "서버와 통신이 원할하지 않네요, 잠시후 다시 접속 해 줄래요?", "네 ㅎ");
             }
         }
     }
