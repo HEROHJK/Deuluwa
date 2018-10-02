@@ -19,6 +19,8 @@ def getUserInfo(request):
 
         if len(list(User.objects.raw(command))) > 0:
             message = 'success'
+        else:
+            message = 'failed'
 
     except Exception as e:
         print("실패 원인 : " + str(e))
