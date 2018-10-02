@@ -124,3 +124,14 @@ def getAttendanceCheckList(request):
         message = 'failed : ' + str(e)
 
     return HttpResponse(message)
+
+def getCourseTotalInformation(request):
+    try:
+        inputCourseId = request.GET.get('courseid')
+        command = "SELECT * FROM courseinfoview WHERE index='{index}';".format(index=inputCourseId)
+
+
+    except Exception as e:
+        message = 'failed : ' + str(e)
+
+    return HttpResponse(message)
