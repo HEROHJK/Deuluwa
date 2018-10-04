@@ -53,13 +53,12 @@ def getUserCourseList(request):
         command = "SELECT * FROM courseinformation, coursestudent WHERE courseinformation.courseindex = coursestudent.couseid AND userid = '{id}';".format(id=inputId)
 
         userClasses = Courseinformation.objects.raw(command)
-
         userClassesList = []
 
         for userClass in userClasses:
             learningTime = getEndTime(userClass.starttime, userClass.coursetime)
             userClassesList.append(
-                {'index':userClass.index,
+                {'index':userClass.courseindex.index,
                  'coursename' : userClass.coursename,
                  'classday' : userClass.classday,
                  'startdate' : userClass.startdate.strftime("%Y-%m-%d"),
@@ -133,8 +132,17 @@ def getCourseTotalInformation(request):
         cursor.execute(command)
         result = cursor.fetchall()
         if(len(result) > 0):
-            print(result[0])
-            message = str(result[0])
+            checkTime = getEndTime(result[0][3],result[0][4])
+
+            myTuple = {'index':str(result[0][0]),
+                       'coursename':str(result[0][1]),
+                       'teacher':str(result[0][2]),
+                       'starttime':str(checkTime[0].strftime("%H:%M")),
+                       'endtime':str(checkTime[1].strftime("%H:%M")),
+                       'roomname':str(result[0][5]),
+                       'classday':str(result[0][6])}
+            message = json.dumps(myTuple,ensure_ascii=False)
+
         else:
             message='failed'
 

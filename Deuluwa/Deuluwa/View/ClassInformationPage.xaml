@@ -4,7 +4,7 @@
              x:Class="Deuluwa.ClassInformationPage"
              Title="수업 정보">
     <ContentPage.Content>
-        <ListView x:Name="listView" ItemsSource="{Binding ListOfItems}">
+        <ListView x:Name="listView" ItemsSource="{Binding ListOfItems}" ItemTapped="listView_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

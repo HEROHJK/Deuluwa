@@ -56,5 +56,11 @@ namespace Deuluwa
                 listView.ItemsSource = CoursesLoad(content);
             }
         }
-	}
+
+        private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            CustomClass customClass = e.Item as CustomClass;
+            Navigation.PushAsync(new CourseInformationPage(customClass.index));
+        }
+    }
 }
