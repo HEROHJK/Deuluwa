@@ -28,6 +28,25 @@ def getUserInfo(request):
 
     return HttpResponse(message)
 
+def adminLogin(request):
+    try :
+        inputId = request.GET.get('id')
+        inputPw = request.GET.get('password')
+
+        command = "SELECT * FROM deuluwa.public.user WHERE id = '{id}' AND password = MD5('{password}') AND admin = true;".format(
+            id=inputId, password=inputPw)
+
+        if len(list(User.objects.raw(command))) > 0:
+            message = 'success'
+        else:
+            message = 'failed'
+
+    except Exception as e:
+        print("failed : " + str(e))
+        message = "failed : " + str(e)
+
+    return HttpResponse(message)
+
 def getUserAddInfo(request):
     try :
         inputId = request.GET.get('id')

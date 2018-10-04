@@ -21,6 +21,7 @@ from deuluwa import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^user/$', views.getUserInfo),
+    url(r'^adminlogin/$', views.adminLogin),
     url(r'^userinfo/$', views.getUserAddInfo),
     url(r'^usercourselist/$', views.getUserCourseList),
     url(r'^courseinformation/$',views.getCourseInformation),
