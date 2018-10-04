@@ -93,7 +93,7 @@ namespace DeuluwaPIM.View
 
                     byte[] bytes = Convert.FromBase64String(Properties.Settings.Default["password"].ToString());
                     passwordTextbox.Password = Encoding.Unicode.GetString(bytes);
-                    //Login(true);
+                    Login(true);
                 }
             }
             catch { }
