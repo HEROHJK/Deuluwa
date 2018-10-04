@@ -37,11 +37,11 @@ namespace Deuluwa
                 try
                 {
                     CourseInformation info = new CourseInformation(JsonConvert.DeserializeObject<CourseInformationJson>(content));
+                    Title = info.coursename;
                     courseNameLabel.Text = info.coursename;
                     teacherNameLabel.Text = info.teacher;
-                    courseTimeLabel.Text = info.starttime + " - " + info.endtime;
+                    courseTimeLabel.Text = info.classday + "\r\n" + info.starttime + " - " + info.endtime;
                     classLabel.Text = info.roomname;
-                    Title = info.coursename;
                 }
                 catch
                 {

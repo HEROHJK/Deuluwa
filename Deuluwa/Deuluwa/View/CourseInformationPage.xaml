@@ -30,7 +30,7 @@
                 Text="강사 명"
                 FontSize="Medium"
                 TextColor="White"
-                Margin="20,20,20,0"
+                Margin="20,10,20,5"
                 Grid.Row="2"
                 Grid.RowSpan="1"
                 />
@@ -49,7 +49,7 @@
                 Text="강의 시간"
                 FontSize="Medium"
                 TextColor="White"
-                Margin="20,20,20,0"
+                Margin="20,10,20,5"
                 Grid.Row="4"
                 Grid.RowSpan="1"
                 />
@@ -59,7 +59,7 @@
                 FontSize="Large"
                 FontAttributes="Bold"
                 TextColor="White"
-                Margin="30,5,20,5"
+                Margin="30,0,20,0"
                 Grid.Row="5"
                 Grid.RowSpan="1"
                 />
@@ -68,7 +68,7 @@
                 Text="강의실"
                 FontSize="Medium"
                 TextColor="White"
-                Margin="20,20,20,0"
+                Margin="20,10,20,5"
                 Grid.Row="6"
                 Grid.RowSpan="1"
                 />
@@ -87,7 +87,7 @@
                 Text="최근 출석 정보"
                 FontSize="Medium"
                 TextColor="White"
-                Margin="20,20,20,0"
+                Margin="20,10,20,5"
                 Grid.Row="8"
                 Grid.RowSpan="1"
                 />
