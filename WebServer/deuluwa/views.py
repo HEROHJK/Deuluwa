@@ -128,8 +128,15 @@ def getAttendanceCheckList(request):
 def getCourseTotalInformation(request):
     try:
         inputCourseId = request.GET.get('courseid')
+        cursor = connection.cursor()
         command = "SELECT * FROM courseinfoview WHERE index='{index}';".format(index=inputCourseId)
-
+        cursor.execute(command)
+        result = cursor.fetchall()
+        if(len(result) > 0):
+            print(result[0])
+            message = str(result[0])
+        else:
+            message='failed'
 
     except Exception as e:
         message = 'failed : ' + str(e)
