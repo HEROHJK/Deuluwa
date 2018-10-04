@@ -17,7 +17,7 @@
             <PasswordBox x:Name ="passwordTextbox" TabIndex="2" HorizontalAlignment="Left" Margin="0,31,0,0" VerticalAlignment="Top" Width="274"/>
             <Label Content="PASSWORD : " HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
-        <Button Content="로그인" TabIndex="3" HorizontalAlignment="Left" Margin="0,343,0,0" VerticalAlignment="Top" Width="300" RenderTransformOrigin="-0.022,0" Height="76" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,6,0,6" Click="Button_Click"/>
+        <Button Style="{StaticResource AccentedSquareButtonStyle}" Content="로그인" TabIndex="3" HorizontalAlignment="Left" Margin="10,335,0,0" VerticalAlignment="Top" Width="274" RenderTransformOrigin="-0.022,0" Height="76" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,6,0,6" Click="Button_Click" Background="#CC119EDA" BorderBrush="White"/>
         <Label Content="Deuluwa&#x0d;&#x0a;관리자용 프로그램" HorizontalAlignment="Center" Margin="10,10,10,0" VerticalAlignment="Top" Height="121" Width="274" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold"/>
         <Controls:ToggleSwitch x:Name="autoLoginSwitch" Content="자동 로그인"  HorizontalAlignment="Center" Margin="75,292,68,94" VerticalAlignment="Center"/>
     </Grid>

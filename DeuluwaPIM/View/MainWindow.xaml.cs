@@ -31,9 +31,42 @@ namespace DeuluwaPIM.View
 
         }
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        private void AccountManagement(object sender, RoutedEventArgs e)
         {
-            
+            //사용자 관리
+        }
+
+        private void CheckManagement(object sender, RoutedEventArgs e)
+        {
+            //출석 관리
+        }
+
+        private void CourseManagement(object sender, RoutedEventArgs e)
+        {
+            //수업 관리
+        }
+
+        private void ClassManagement(object sender, RoutedEventArgs e)
+        {
+            //교실 관리
+        }
+
+        private void Setting(object sender, RoutedEventArgs e)
+        {
+            //환경 설정
+        }
+
+        private void Logout(object sender, RoutedEventArgs e)
+        {
+            //로그 아웃
+            loggined = false;
+            Properties.Settings.Default["autologin"] = false;
+            Properties.Settings.Default["id"] = null;
+            Properties.Settings.Default["password"] = null;
+            Properties.Settings.Default.Save();
+            LoginWindow lw = new LoginWindow();
+            lw.ShowDialog();
+            if (!loggined) { Close(); }
         }
     }
 }

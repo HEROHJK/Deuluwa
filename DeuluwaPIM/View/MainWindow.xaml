@@ -6,12 +6,38 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:DeuluwaPIM"
         mc:Ignorable="d"
-        Title="Deuluwa - 관리자용" Height="450" Width="800"
-                      WindowStartupLocation="CenterScreen">
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      Title="Deuluwa - 관리자용" Height="640.5" Width="489"
+                      WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="247*"/>
-            <ColumnDefinition Width="545*"/>
-        </Grid.ColumnDefinitions>
+        <Controls:Tile 
+            Title="사용자 관리"
+             Width="150" Height="150" Foreground="White" Margin="10,10,323,451" Click="AccountManagement" >
+            <iconPacks:PackIconMaterial Kind="Account" Height="80" Width="80" Foreground="White" />
+        </Controls:Tile>
+        <Controls:Tile
+            Title="수업 관리"  Width="Auto" Height="150" Foreground="White" Margin="10,165,168,296" Click="CourseManagement">
+            <iconPacks:PackIconMaterial Kind="Library" Height="96" Width="96" />
+        </Controls:Tile>
+        <Controls:Tile
+            Title="출석 관리" Foreground="White" Width="150" Height="150" Margin="165,10,168,451" Click="CheckManagement">
+            <iconPacks:PackIconMaterial Kind="AccountCheck" Height="100" Width="100" Foreground="White"/>
+        </Controls:Tile>
+        <Controls:Tile
+            Title="교실 관리"  Width="Auto" Height="150" Foreground="White" Margin="10,320,168,141" Click="ClassManagement">
+            <iconPacks:PackIconMaterial Kind="School" Height="96" Width="96" />
+        </Controls:Tile>
+        <Controls:Tile
+            Title="환경 설정" Foreground="White" Width="150" Height="Auto" Margin="323,10,10,296" Click="Setting">
+            <iconPacks:PackIconMaterial Kind="Settings" Height="100" Width="100" Foreground="White"/>
+        </Controls:Tile>
+        <Controls:Tile
+            Title="로그아웃" Foreground="White" Width="150" Height="150" Margin="323,320,10,141" Click="Logout">
+            <iconPacks:PackIconMaterial Kind="Logout" Height="80" Width="80" Foreground="White"/>
+        </Controls:Tile>
+        <DataGrid Margin="10,511,10,10"
+                  ItemsSource="{Binding NoticeMessage}">
+        </DataGrid>
+        <Label Content="전달사항" HorizontalAlignment="Left" Margin="10,475,0,0" VerticalAlignment="Top" Height="36" Width="132" FontWeight="Bold" FontSize="18"/>
     </Grid>
 </Controls:MetroWindow>
