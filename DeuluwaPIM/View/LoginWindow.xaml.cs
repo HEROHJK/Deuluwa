@@ -98,5 +98,21 @@ namespace DeuluwaPIM.View
             }
             catch { }
         }
+
+        private void IDBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                passwordTextbox.Focus();
+            }
+        }
+
+        private void PasswordBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                Login(false);
+            }
+        }
     }
 }
