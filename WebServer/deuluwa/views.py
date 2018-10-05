@@ -196,16 +196,16 @@ def writeNoticeMessage(request):
         inputId = request.POST['id']
         inputMessage = request.POST['message']
 
-        print(inputId)
-        print(inputMessage)
         message = inputMessage
 
         time = datetime.datetime.now()
 
-
-        print(time.strftime('%Y-%m-%d') + time.strftime('%H:%M:%S'))
-        query = Notice.objects.create(user=User.objects.filter(id=inputId).first(),
-                                      message=inputMessage, date=time.strftime('%Y-%m-%d'), time=time.strftime('%H:%M:%S'))
+        query = Notice.objects.create(
+            user=User.objects.filter(id=inputId).first(),
+            message=inputMessage,
+            date=time.strftime('%Y-%m-%d'),
+            time=time.strftime('%H:%M:%S')
+        )
         query.save()
 
         noticeMessages = Notice.objects.order_by('-index')
