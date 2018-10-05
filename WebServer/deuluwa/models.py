@@ -93,3 +93,14 @@ class Userinformation(models.Model):
     class Meta:
         managed = False
         db_table = 'userinformation'
+
+class Notice(models.Model):
+    index = models.AutoField(primary_key=True)
+    message = models.TextField()
+    user = models.ForeignKey('User', models.DO_NOTHING, db_column='user')
+    date = models.DateField()
+    time = models.TimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'notice'
