@@ -19,3 +19,8 @@ def tardyCheck(startTime, endTime, time):
     elif time > startTime:
         return 1
     return 0
+
+def makeDateTime(strDate, strTime):
+    time = strDate + " " + strTime[:5]
+
+    return time

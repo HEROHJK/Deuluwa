@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from deuluwa.serializers import UserSerializer
-from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord
+from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord, Notice
 from django.http import HttpResponse
-from deuluwa.funcs import getEndTime, getTime, tardyCheck
+from deuluwa.funcs import getEndTime, getTime, tardyCheck, makeDateTime
 from django.db import connection
 import json
 
@@ -167,5 +167,24 @@ def getCourseTotalInformation(request):
 
     except Exception as e:
         message = 'failed : ' + str(e)
+
+    return HttpResponse(message)
+
+#공지사항 출력
+def getNoticeMessages(request):
+    noticeMessages = Notice.objects.order_by('-index')
+
+    noticeList = []
+
+    for result in noticeMessages:
+        noticeList.append({
+            'index' : result.index,
+            'message' : result.message,
+            'user' : Userinformation.objects.filter(id__userinformation=result.user.id).first().name,
+            'time' : makeDateTime(str(result.date).strip(), str(result.time).strip())
+        })
+
+    print(noticeList)
+    message = json.dumps(noticeList, ensure_ascii=False)
 
     return HttpResponse(message)

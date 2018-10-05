@@ -1,5 +1,10 @@
-from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord, Course
+from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord, Course, Notice
 from rest_framework import serializers
+
+class NoticeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Notice
+        fields = ('index', 'message', 'user', 'date', 'time')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
