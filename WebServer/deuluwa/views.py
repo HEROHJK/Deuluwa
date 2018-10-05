@@ -4,7 +4,9 @@ from deuluwa.models import User, Userinformation, Courseinformation, Attendancer
 from django.http import HttpResponse
 from deuluwa.funcs import getEndTime, getTime, tardyCheck, makeDateTime
 from django.db import connection
+from django.views.decorators.csrf import csrf_exempt
 import json
+import datetime
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -184,7 +186,43 @@ def getNoticeMessages(request):
             'time' : makeDateTime(str(result.date).strip(), str(result.time).strip())
         })
 
-    print(noticeList)
     message = json.dumps(noticeList, ensure_ascii=False)
+
+    return HttpResponse(message)
+
+@csrf_exempt
+def writeNoticeMessage(request):
+    try:
+        inputId = request.POST['id']
+        inputMessage = request.POST['message']
+
+        print(inputId)
+        print(inputMessage)
+        message = inputMessage
+
+        time = datetime.datetime.now()
+
+
+        print(time.strftime('%Y-%m-%d') + time.strftime('%H:%M:%S'))
+        query = Notice.objects.create(user=User.objects.filter(id=inputId).first(),
+                                      message=inputMessage, date=time.strftime('%Y-%m-%d'), time=time.strftime('%H:%M:%S'))
+        query.save()
+
+        noticeMessages = Notice.objects.order_by('-index')
+
+        noticeList = []
+
+        for result in noticeMessages:
+            noticeList.append({
+                'index': result.index,
+                'message': result.message,
+                'user': Userinformation.objects.filter(id__userinformation=result.user.id).first().name,
+                'time': makeDateTime(str(result.date).strip(), str(result.time).strip())
+            })
+
+        message = json.dumps(noticeList, ensure_ascii=False)
+
+    except Exception as e:
+        message = 'failed : ' + str(e)
 
     return HttpResponse(message)

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Windows;
@@ -28,6 +29,9 @@ namespace DeuluwaPIM.View
                 {
                     //로그인 성공 처리
                     MainWindow.loggined = true;
+                    MainWindow.userId = idTextbox.Text;
+                    MainWindow.userName = JsonConvert.DeserializeObject<Model.UserAddInformation>(Model.Constants.HttpRequest(string.Format("http://silco.co.kr:18000/userinfo/?id={0}", idTextbox.Text))).name;
+                    
                     if (!isAutologin) SaveData();
                     Close();
                 }

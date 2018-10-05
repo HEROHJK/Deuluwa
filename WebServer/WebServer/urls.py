@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^userattendancelist/$', views.getAttendanceCheckList),
     url(r'^coursetotalinformation/$', views.getCourseTotalInformation),
     url(r'^notice', views.getNoticeMessages),
+    url(r'^writenoticemessage', views.writeNoticeMessage),
 ]
