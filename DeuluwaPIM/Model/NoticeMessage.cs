@@ -1,26 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeuluwaPIM
+﻿namespace DeuluwaPIM
 {
     class NoticeList
     {
-        public static List<NoticeMessage> list;
+        public static System.Collections.Generic.List<NoticeMessage> list;
     }
 
     public class NoticeMessage
     {
-        [JsonProperty("index")]
+        [Newtonsoft.Json.JsonProperty("index")]
         public string index { get; set; }
-        [JsonProperty("time")]
+        [Newtonsoft.Json.JsonProperty("time")]
         public string date { get; set; }
-        [JsonProperty("message")]
+        [Newtonsoft.Json.JsonProperty("message")]
         public string message { get; set; }
-        [JsonProperty("user")]
+        [Newtonsoft.Json.JsonProperty("user")]
         public string writer { get; set; }
     }
 }

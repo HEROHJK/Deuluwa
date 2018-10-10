@@ -38,7 +38,6 @@ namespace DeuluwaPIM.View
                 else if (result == "failed")
                 {
                     await this.ShowMessageAsync("접속 오류", "ID와 PW를 확인 해 주세요. \r\n관리자만 접속이 가능합니다!");
-                    //MessageBox.Show("ID/PASSWORD를 확인 해 주세요\r\n 관리자만 접속이 가능합니다.");
                 }
                 else
                 {

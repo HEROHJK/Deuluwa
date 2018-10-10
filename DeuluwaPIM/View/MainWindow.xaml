@@ -28,11 +28,11 @@
             <iconPacks:PackIconMaterial Kind="School" Height="96" Width="96" />
         </Controls:Tile>
         <Controls:Tile
-            Title="환경 설정" Foreground="White" Width="150" Height="Auto" Margin="580,10,10,433" Click="Setting">
+            Title="환경 설정" Foreground="White" Width="150" Height="Auto" Margin="320,10,270,433" Click="Setting">
             <iconPacks:PackIconMaterial Kind="Settings" Height="100" Width="100" Foreground="White"/>
         </Controls:Tile>
         <Controls:Tile
-            Title="로그아웃" Foreground="White" Width="150" Height="150" Margin="580,320,10,278" Click="Logout">
+            Title="로그아웃" Foreground="White" Width="150" Height="150" Margin="320,320,270,278" Click="Logout">
             <iconPacks:PackIconMaterial Kind="Logout" Height="80" Width="80" Foreground="White"/>
         </Controls:Tile>
         <DataGrid 

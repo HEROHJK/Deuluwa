@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DeuluwaPIM.View
 {
@@ -75,23 +76,42 @@ namespace DeuluwaPIM.View
             //환경 설정
         }
 
-        private void Logout(object sender, RoutedEventArgs e)
+        private async Task<bool> IsLogout()
         {
-            //로그 아웃
-            Hide();
+            if (!(bool)Properties.Settings.Default["autologin"]) return true;
+            MetroDialogSettings setting = new MetroDialogSettings();
+            setting.AffirmativeButtonText = "네ㅎㅎ";
+            setting.NegativeButtonText = "아뇨;;";
+            var result = await this.ShowMessageAsync("로그아웃", "로그아웃하시겠습니까?\r\n로그아웃을 하면 저장된 정보가 사라집니다",MessageDialogStyle.AffirmativeAndNegative, setting);
+            if(result == MessageDialogResult.Affirmative)
+            {
+                return true;
+            }
 
-            loggined = false;
-            Properties.Settings.Default["autologin"] = false;
-            Properties.Settings.Default["id"] = null;
-            Properties.Settings.Default["password"] = null;
-            Properties.Settings.Default.Save();
+            return false;
+        }
 
-            LoginWindow lw = new LoginWindow();
-            lw.ShowDialog();
+        private async void Logout(object sender, RoutedEventArgs e)
+        {
 
-            if (!loggined) { Close(); }
+            if (await IsLogout())
+            {
+                //로그 아웃
+                Hide();
 
-            Show();
+                loggined = false;
+                Properties.Settings.Default["autologin"] = false;
+                Properties.Settings.Default["id"] = null;
+                Properties.Settings.Default["password"] = null;
+                Properties.Settings.Default.Save();
+
+                LoginWindow lw = new LoginWindow();
+                lw.ShowDialog();
+
+                if (!loggined) { Close(); }
+
+                Show();
+            }
         }
 
         private void WriteButton_Click(object sender, RoutedEventArgs e)

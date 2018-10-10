@@ -4,8 +4,6 @@ using System.Net;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-
 namespace DeuluwaPIM.Model
 {
     class Constants
@@ -66,7 +64,7 @@ namespace DeuluwaPIM.Model
             return result;
         }
 
-        public static Style MakeRowStyle(RoutedEvent routedEvent, MouseButtonEventHandler handler)
+        public static Style MakeRowStyle(RoutedEvent routedEvent, System.Windows.Input.MouseButtonEventHandler handler)
         {
             Style rowStyle = new Style(typeof(DataGridRow));
             rowStyle.Setters.Add(new EventSetter(routedEvent, handler));
