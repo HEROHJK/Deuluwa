@@ -1,5 +1,6 @@
 ﻿namespace DeuluwaPIM
 {
+
     class NoticeList
     {
         public static System.Collections.Generic.List<NoticeMessage> list;
@@ -16,4 +17,5 @@
         [Newtonsoft.Json.JsonProperty("user")]
         public string writer { get; set; }
     }
+
 }

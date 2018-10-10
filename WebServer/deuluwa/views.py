@@ -8,10 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import datetime
 
-class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-
+#사용자 로그인
 def getUserInfo(request):
     try :
         inputId = request.GET.get('id')
@@ -30,6 +27,7 @@ def getUserInfo(request):
 
     return HttpResponse(message)
 
+#관리자 로그인
 def adminLogin(request):
     try :
         inputId = request.GET.get('id')
@@ -49,6 +47,7 @@ def adminLogin(request):
 
     return HttpResponse(message)
 
+#사용자 상세정보 조회
 def getUserAddInfo(request):
     try :
         inputId = request.GET.get('id')
@@ -68,6 +67,7 @@ def getUserAddInfo(request):
 
     return HttpResponse(message)
 
+#수강생 수강목록 조회
 def getUserCourseList(request):
     try :
         inputId = request.GET.get('id')
@@ -96,6 +96,7 @@ def getUserCourseList(request):
 
     return HttpResponse(message)
 
+#수업정보 출력
 def getCourseInformation(request):
     try:
         inputCourseId = request.GET.get('courseid')
@@ -118,6 +119,7 @@ def getCourseInformation(request):
 
     return HttpResponse(message)
 
+#출석정보 조회
 def getAttendanceCheckList(request):
     try:
         inputCourseId = request.GET.get('courseid')
@@ -145,6 +147,7 @@ def getAttendanceCheckList(request):
 
     return HttpResponse(message)
 
+#수업 상세정보 출력
 def getCourseTotalInformation(request):
     try:
         inputCourseId = request.GET.get('courseid')
@@ -172,6 +175,31 @@ def getCourseTotalInformation(request):
 
     return HttpResponse(message)
 
+#사용자 목록 출력
+def getUserList(request):
+    try:
+        objects = Userinformation.objects.all()
+
+        list = []
+
+        message='test'
+        for obj in objects:
+            list.append({
+                'id' : str(obj.id.id),
+                'name' : str(obj.name),
+                'address' : str(obj.address),
+                'phonenumber' : str(obj.phonenumber),
+                'admin' : str(obj.id.admin)
+            })
+
+        message = json.dumps(list, ensure_ascii=False)
+
+    except Exception as e:
+        message = 'failed : ' + str(e)
+        print(message)
+
+    return HttpResponse(message)
+
 #공지사항 출력
 def getNoticeMessages(request):
     noticeMessages = Notice.objects.order_by('-index')
@@ -190,6 +218,7 @@ def getNoticeMessages(request):
 
     return HttpResponse(message)
 
+#공지사항 입력
 @csrf_exempt
 def writeNoticeMessage(request):
     try:

@@ -15,17 +15,17 @@ namespace DeuluwaPIM.View
     public partial class NoticeWindow
     {
         bool writeMode;
-        public NoticeWindow(bool writeMode, string index="")
+        public NoticeWindow(bool writeMode, string index = "")
         {
             InitializeComponent();
             this.writeMode = writeMode;
             WriteMode(this.writeMode, index);
-            Task.Factory.StartNew(LoadNoticeDataThread);
+            LoadNoticeData();
             indexColumn.Visibility = Visibility.Hidden;
             datagrid.RowHeight = 25;
         }
 
-        private void WriteMode(bool writeMode, string index="")
+        private void WriteMode(bool writeMode, string index = "")
         {
             this.writeMode = writeMode;
             textBox.Document.Blocks.Clear();
@@ -35,13 +35,14 @@ namespace DeuluwaPIM.View
                 textBox.IsReadOnly = false;
                 writerLabel.Content = MainWindow.userName;
                 writeButton.Content = "작성 완료";
-            } else
+            }
+            else
             {
                 textBox.IsReadOnly = true;
                 writeButton.Content = "신규 작성";
-                foreach(NoticeMessage message in NoticeList.list)
+                foreach (NoticeMessage message in NoticeList.list)
                 {
-                    if(index == message.index)
+                    if (index == message.index)
                     {
                         textBox.Document.Blocks.Add(new Paragraph(new Run(message.message)));
                         writerLabel.Content = message.writer;
@@ -52,20 +53,15 @@ namespace DeuluwaPIM.View
             }
         }
 
-        private void LoadNoticeDataThread()
+        private async void LoadNoticeData()
         {
-            NoticeList.list = LoadData();
-
-            if (datagrid.Dispatcher.CheckAccess())
-            {
-                datagrid.ItemsSource = NoticeList.list;
-            }
-            else datagrid.Dispatcher.BeginInvoke(new Action(LoadNoticeDataThread));
+            NoticeList.list = await LoadData();
+            datagrid.ItemsSource = NoticeList.list;
         }
 
-        private List<NoticeMessage> LoadData()
+        private async Task<List<NoticeMessage>> LoadData()
         {
-            string result = Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
+            string result = await Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
             var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
 
             return array;
@@ -76,7 +72,7 @@ namespace DeuluwaPIM.View
             NoticeMessage message = datagrid.SelectedItem as NoticeMessage;
             if (writeMode)
             {
-                if(MessageBox.Show("작성중이던 글을 취소하겠습니까?", "작성중이던 글", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                if (MessageBox.Show("작성중이던 글을 취소하겠습니까?", "작성중이던 글", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 {
                     return;
                 }
@@ -87,7 +83,7 @@ namespace DeuluwaPIM.View
         private void writeButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            if((string)button.Content == "신규 작성")
+            if ((string)button.Content == "신규 작성")
             {
                 WriteMode(true);
             }

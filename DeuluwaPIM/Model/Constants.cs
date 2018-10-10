@@ -2,13 +2,15 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 namespace DeuluwaPIM.Model
 {
     class Constants
     {
-        public static string HttpRequest(string url)
+        
+        public async static Task<string> HttpRequest(string url)
         {
             string result = null;
 
@@ -16,14 +18,14 @@ namespace DeuluwaPIM.Model
             {
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Timeout = 3000;
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                WebResponse response = await request.GetResponseAsync();
                 Stream stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream);
                 result = reader.ReadToEnd();
                 stream.Close();
                 response.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 System.Diagnostics.Debug.WriteLine(e.Message);

@@ -26,34 +26,35 @@ namespace DeuluwaPIM.View
             LoginWindow lw = new LoginWindow();
             lw.ShowDialog();
             if (!loggined) { Close(); }
-            Task.Factory.StartNew(LoadNoticeDataThread);
+
+            LoadNoticeData();
 
             datagrid.RowStyle = Constants.MakeRowStyle(DataGridRow.MouseDoubleClickEvent, new MouseButtonEventHandler(DataGridCell_MouseDoubleClick));
             datagrid.RowHeight = 25;
         }
 
-        private void LoadNoticeDataThread()
+        private async void LoadNoticeData()
         {
-            NoticeList.list = LoadData();
+            NoticeList.list = await LoadData();
 
-            if (datagrid.Dispatcher.CheckAccess())
-            {
-                datagrid.ItemsSource = NoticeList.list;
-            }
-            else datagrid.Dispatcher.BeginInvoke(new Action(LoadNoticeDataThread));
+            datagrid.ItemsSource = NoticeList.list;
         }
 
-        private List<NoticeMessage> LoadData()
+        private async Task<List<NoticeMessage>> LoadData()
         {
-            string result = Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
-            var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
+            var result = Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
+            var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(await result);
 
             return array;
         }
 
         private void AccountManagement(object sender, RoutedEventArgs e)
         {
-            //사용자 관리
+            var window = new UserControlWindow()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+            window.ShowDialog();
         }
 
         private void CheckManagement(object sender, RoutedEventArgs e)

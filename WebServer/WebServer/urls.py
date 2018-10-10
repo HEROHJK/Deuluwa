@@ -19,14 +19,26 @@ from django.conf.urls import url, include
 from deuluwa import views
 
 urlpatterns = [
+    #관리자 페이지(미제작)
     path('admin/', admin.site.urls),
+    #사용자 로그인
     url(r'^user/$', views.getUserInfo),
+    #관리자 로그인
     url(r'^adminlogin/$', views.adminLogin),
+    #사용자 추가 정보 조회
     url(r'^userinfo/$', views.getUserAddInfo),
+    #사용자 수강목록 조회
     url(r'^usercourselist/$', views.getUserCourseList),
+    #수업 정보 조회
     url(r'^courseinformation/$',views.getCourseInformation),
+    #수업 사용자 출석목록 조회
     url(r'^userattendancelist/$', views.getAttendanceCheckList),
+    #수업 상세정보 조회
     url(r'^coursetotalinformation/$', views.getCourseTotalInformation),
+    #공지사항 조회
     url(r'^notice', views.getNoticeMessages),
+    #공지사항 작성
     url(r'^writenoticemessage', views.writeNoticeMessage),
+    #사용자목록 조회
+    url(r'^userlist', views.getUserList),
 ]
