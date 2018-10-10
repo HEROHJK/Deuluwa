@@ -48,7 +48,6 @@ namespace DeuluwaPIM.View
             {
                 Console.WriteLine(e.Message);
                 await this.ShowMessageAsync("접속 오류", "접속이 안되네여..");
-                MessageBox.Show("접속이 불가능합니다.");
                 return;
             }
         }

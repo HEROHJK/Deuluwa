@@ -1,15 +1,24 @@
-﻿using System;
+﻿using MahApps.Metro.Controls.Dialogs;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
+
 namespace DeuluwaPIM.Model
 {
     class Constants
     {
-        
+
+        public static MetroDialogSettings metroDialogSettings = new MetroDialogSettings
+        {
+            AffirmativeButtonText = "네 ㅎㅎ",
+            NegativeButtonText = "ㄴㄴ;;"
+        };
+
         public async static Task<string> HttpRequest(string url)
         {
             string result = null;
@@ -33,7 +42,7 @@ namespace DeuluwaPIM.Model
             return result;
         }
 
-        public static string HttpRequestPost(string url, string postdata)
+        public async static Task<string> HttpRequestPost(string url, string postdata)
         {
             string result = null;
 
@@ -47,12 +56,12 @@ namespace DeuluwaPIM.Model
                 request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                 request.ContentLength = data.Length;
 
-                using(var sendStream = request.GetRequestStream())
+                using(var sendStream = await request.GetRequestStreamAsync())
                 {
                     sendStream.Write(data, 0, data.Length);
                 }
 
-                var response = (HttpWebResponse)request.GetResponse();
+                var response = await request.GetResponseAsync();
                 result = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 response.Close();

@@ -1,4 +1,5 @@
 ﻿using DeuluwaPIM.Model;
+using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -67,12 +68,13 @@ namespace DeuluwaPIM.View
             return array;
         }
 
-        private void datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             NoticeMessage message = datagrid.SelectedItem as NoticeMessage;
             if (writeMode)
             {
-                if (MessageBox.Show("작성중이던 글을 취소하겠습니까?", "작성중이던 글", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                var messageBoxResult = await this.ShowMessageAsync("작성중이던 글", "작성중이던 글을 취소하겠습니까?", MessageDialogStyle.AffirmativeAndNegative, Constants.metroDialogSettings);
+                if (messageBoxResult == MessageDialogResult.Negative)
                 {
                     return;
                 }
@@ -80,7 +82,7 @@ namespace DeuluwaPIM.View
             WriteMode(false, message.index);
         }
 
-        private void writeButton_Click(object sender, RoutedEventArgs e)
+        private async void writeButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             if ((string)button.Content == "신규 작성")
@@ -89,11 +91,13 @@ namespace DeuluwaPIM.View
             }
             else
             {
-                if (MessageBox.Show("글을 작성하시겠습니까?", "공지 작성", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+
+                var messageBoxResult = await this.ShowMessageAsync("공지 작성", "글을 작성하시겠습니까?", MessageDialogStyle.AffirmativeAndNegative, Constants.metroDialogSettings);
+                if (messageBoxResult == MessageDialogResult.Affirmative)
                 {
                     string postData = string.Format("id={0}", MainWindow.userId);
                     postData += string.Format("&message={0}", new TextRange(textBox.Document.ContentStart, textBox.Document.ContentEnd).Text);
-                    string result = Constants.HttpRequestPost("http://silco.co.kr:18000/writenoticemessage/", postData);
+                    string result = await Constants.HttpRequestPost("http://silco.co.kr:18000/writenoticemessage/", postData);
                     try
                     {
                         NoticeList.list = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
@@ -104,7 +108,7 @@ namespace DeuluwaPIM.View
                     }
                     catch
                     {
-                        MessageBox.Show("글 작성 실패");
+                        await this.ShowMessageAsync("실패", "글 작성 실패");
                     }
 
                 }

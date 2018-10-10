@@ -80,10 +80,8 @@ namespace DeuluwaPIM.View
         private async Task<bool> IsLogout()
         {
             if (!(bool)Properties.Settings.Default["autologin"]) return true;
-            MetroDialogSettings setting = new MetroDialogSettings();
-            setting.AffirmativeButtonText = "네ㅎㅎ";
-            setting.NegativeButtonText = "아뇨;;";
-            var result = await this.ShowMessageAsync("로그아웃", "로그아웃하시겠습니까?\r\n로그아웃을 하면 저장된 정보가 사라집니다",MessageDialogStyle.AffirmativeAndNegative, setting);
+            
+            var result = await this.ShowMessageAsync("로그아웃", "로그아웃하시겠습니까?\r\n로그아웃을 하면 저장된 정보가 사라집니다",MessageDialogStyle.AffirmativeAndNegative, Constants.metroDialogSettings);
             if(result == MessageDialogResult.Affirmative)
             {
                 return true;
