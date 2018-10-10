@@ -22,7 +22,7 @@ namespace DeuluwaPIM.View
             try
             {
                 string url = string.Format("http://silco.co.kr:18000/adminlogin/?id={0}&password={1}", idTextbox.Text, passwordTextbox.Password.ToString());
-                string result = await Model.Constants.HttpRequest(url);
+                string result = await Constants.HttpRequest(url);
 
 
                 if (result == "success")
@@ -30,7 +30,7 @@ namespace DeuluwaPIM.View
                     //로그인 성공 처리
                     MainWindow.loggined = true;
                     MainWindow.userId = idTextbox.Text;
-                    MainWindow.userName = JsonConvert.DeserializeObject<Model.UserAddInformation>(await Model.Constants.HttpRequest(string.Format("http://silco.co.kr:18000/userinfo/?id={0}", idTextbox.Text))).name;
+                    MainWindow.userName = JsonConvert.DeserializeObject<Model.UserAddInformation>(await Constants.HttpRequest(string.Format("http://silco.co.kr:18000/userinfo/?id={0}", idTextbox.Text))).name;
                     
                     if (!isAutologin) SaveData();
                     Close();

@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace DeuluwaPIM.Model
+namespace DeuluwaPIM
 {
     class Constants
     {
@@ -16,7 +16,8 @@ namespace DeuluwaPIM.Model
         public static MetroDialogSettings metroDialogSettings = new MetroDialogSettings
         {
             AffirmativeButtonText = "네 ㅎㅎ",
-            NegativeButtonText = "ㄴㄴ;;"
+            NegativeButtonText = "ㄴㄴ;;",
+            FirstAuxiliaryButtonText = "걍 취소"
         };
 
         public async static Task<string> HttpRequest(string url)

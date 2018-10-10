@@ -1,4 +1,4 @@
-﻿namespace DeuluwaPIM
+﻿namespace DeuluwaPIM.Model
 {
 
     class NoticeList

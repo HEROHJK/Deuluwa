@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="사용자 관리" Height="720" Width="932" ResizeMode="NoResize">
     <Grid>
-        <DataGrid x:Name="userDatagrid" HorizontalAlignment="Left" Height="474" Margin="732,52,0,0" VerticalAlignment="Top" Width="188" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="UserDataGridViewSelectionChanged">
+        <DataGrid x:Name="userDatagrid" HorizontalAlignment="Left" Height="474" Margin="732,52,0,0" VerticalAlignment="Top" Width="188" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="userDatagrid_SelectionChanged">
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -24,19 +24,19 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="신규 등록" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,531,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold"/>
-        <Button Content="정보 수정" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,606,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold"/>
+        <Button Content="정보 수정" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,606,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold" Click="ModifyButton_Click"/>
         <Label Content="ID : " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="이름 : " HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="주소 : " HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="연락처 : " HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Controls:ToggleSwitch x:Name="autoLoginSwitch" Content="관리자"  HorizontalAlignment="Center" Margin="399,10,373,644" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Width="154" Height="37"/>
         <Label Content="수강 수업 : " HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="37" Margin="156,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
-        <TextBox Controls:TextBoxHelper.Watermark="홍길동" HorizontalAlignment="Left" Height="37" Margin="156,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
-        <TextBox Controls:TextBoxHelper.Watermark="010-1234-1234" HorizontalAlignment="Left" Height="37" Margin="156,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
-        <TextBox Controls:TextBoxHelper.Watermark="(우편번호) 주소" Controls:TextBoxHelper.ClearTextButton="True" HorizontalAlignment="Left" Height="37" Margin="156,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="571" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="idBox" IsReadOnly="True" HorizontalAlignment="Left" Height="37" Margin="156,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="nameBox" Controls:TextBoxHelper.Watermark="홍길동" HorizontalAlignment="Left" Height="37" Margin="156,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="phonenumberBox" Controls:TextBoxHelper.Watermark="010-1234-1234" HorizontalAlignment="Left" Height="37" Margin="156,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="addressBox" Controls:TextBoxHelper.Watermark="(우편번호) 주소" Controls:TextBoxHelper.ClearTextButton="True" HorizontalAlignment="Left" Height="37" Margin="156,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="571" FontSize="20" FontWeight="Bold"/>
 
-        <DataGrid x:Name="courseDatagrid" HorizontalAlignment="Left" Height="461" Margin="10,220,0,0" VerticalAlignment="Top" Width="299" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="courseDatagrid" HorizontalAlignment="Left" Height="461" Margin="10,220,0,0" VerticalAlignment="Top" Width="299" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="courseDatagrid_SelectionChanged">
 
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -46,10 +46,10 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="courseName" Header="수업 명" Binding="{Binding courseName}" Width="299"/>
+                <DataGridTextColumn x:Name="courseName" Header="수업 명" Binding="{Binding coursename}" Width="299"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="courseDatagrid_Copy" HorizontalAlignment="Left" Height="461" Margin="314,220,0,0" VerticalAlignment="Top" Width="413" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="attendanceDatagrid" HorizontalAlignment="Left" Height="461" Margin="314,220,0,0" VerticalAlignment="Top" Width="413" AutoGenerateColumns="False" IsReadOnly="True">
 
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -59,8 +59,9 @@
             </DataGrid.CellStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="date" Header="날짜" Binding="{Binding checkDate}" Width="313"/>
-                <DataGridTextColumn x:Name="attendance" Header="출석여부" Binding="{Binding checkAttendance}" Width="100"/>
+                <DataGridTextColumn x:Name="date" Header="날짜" Binding="{Binding checkdate}" Width="163"/>
+                <DataGridTextColumn x:Name="time" Header="시간" Binding="{Binding checktime}" Width="150"/>
+                <DataGridTextColumn x:Name="attendance" Header="출석여부" Binding="{Binding attendance}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="출석 목록 : " HorizontalAlignment="Left" Margin="314,178,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>

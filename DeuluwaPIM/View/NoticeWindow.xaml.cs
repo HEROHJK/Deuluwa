@@ -62,7 +62,7 @@ namespace DeuluwaPIM.View
 
         private async Task<List<NoticeMessage>> LoadData()
         {
-            string result = await Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
+            string result = await Constants.HttpRequest("http://silco.co.kr:18000/notice");
             var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
 
             return array;

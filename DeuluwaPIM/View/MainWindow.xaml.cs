@@ -29,7 +29,7 @@ namespace DeuluwaPIM.View
 
             LoadNoticeData();
 
-            datagrid.RowStyle = Constants.MakeRowStyle(DataGridRow.MouseDoubleClickEvent, new MouseButtonEventHandler(DataGridCell_MouseDoubleClick));
+            datagrid.RowStyle = Constants.MakeRowStyle(MouseDoubleClickEvent, new MouseButtonEventHandler(DataGridCell_MouseDoubleClick));
             datagrid.RowHeight = 25;
         }
 
@@ -42,7 +42,7 @@ namespace DeuluwaPIM.View
 
         private async Task<List<NoticeMessage>> LoadData()
         {
-            var result = Model.Constants.HttpRequest("http://silco.co.kr:18000/notice");
+            var result = Constants.HttpRequest("http://silco.co.kr:18000/notice");
             var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(await result);
 
             return array;
