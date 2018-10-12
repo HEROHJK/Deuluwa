@@ -23,7 +23,7 @@
 ## 현재까지의 ERD 구성 및 설명
 
 ### ERD
-![enter image description here](https://raw.githubusercontent.com/HEROHJK/Deuluwa/master/SQL/deuluwa.png)
+![enter image description here](https://raw.githubusercontent.com/HEROHJK/Deuluwa/master/SQL/deuluwadb.png)
 
 ### 사용자(user)
 |물리 이름|논리 이름|비고|
@@ -99,3 +99,23 @@
 |user|글쓴이|text, not null, 사용자 외래키|
 |date|날짜|date, not null|
 |time|시간|time, not null|
+
+### 사용자뷰(userview)
+|물리이름|논리이름|비고|
+|--|--|--|
+|id|id|user table|
+|admin|관리자여부|user table|
+|name|이름|userinformation table|
+|address|주소|userinformation table|
+|phonenumber|연락처|userinformation table|
+
+### 수업정보뷰(courseinfoview)
+|물리이름|논리이름|비고|
+|--|--|--|
+|index|번호|course table|
+|coursename|수업명|courseinformation table|
+|teacher|강사명|course -> user -> userinformation table|
+|starttime|시작시간|coursetinformation table|
+|coursetime|진행시간|courseinformation table|
+|roomname|강의실명|course -> lectureroom table|
+|classday|진행요일|courseinformation table|
