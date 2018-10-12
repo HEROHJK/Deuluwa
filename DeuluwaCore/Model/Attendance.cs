@@ -4,16 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeuluwaPIM.Model
+namespace DeuluwaCore.Model
 {
-    class Attendance
+    public class Attendance
     {
         public string checkdate { get; set; }
         public string checktime { get; set; }
         public string attendance { get; set; }
 
-        public void Change()
+        public Attendance(Dictionary<string, string> dict)
         {
+            checkdate = dict["checkdate"];
+            checktime = dict["checktime"];
+            attendance = dict["attendance"];
+
             TimeChange();
             AttendanceChange();
         }

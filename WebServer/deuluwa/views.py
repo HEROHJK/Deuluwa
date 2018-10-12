@@ -15,35 +15,18 @@ def getUserInfo(request):
         inputPw = request.GET.get('password')
 
         command = "SELECT * FROM deuluwa.public.user WHERE id = '{id}' AND password = MD5('{password}');".format(id=inputId,password=inputPw)
-
-        if len(list(User.objects.raw(command))) > 0:
-            message = 'success'
+        list = User.objects.raw(command)
+        if len(list) > 0:
+            if(list[0].admin == True):
+                message = 'success admin'
+            else:
+                message = 'success'
         else:
             message = 'failed'
 
     except Exception as e:
         print("실패 원인 : " + str(e))
         message = 'failed'
-
-    return HttpResponse(message)
-
-#관리자 로그인
-def adminLogin(request):
-    try :
-        inputId = request.GET.get('id')
-        inputPw = request.GET.get('password')
-
-        command = "SELECT * FROM deuluwa.public.user WHERE id = '{id}' AND password = MD5('{password}') AND admin = true;".format(
-            id=inputId, password=inputPw)
-
-        if len(list(User.objects.raw(command))) > 0:
-            message = 'success'
-        else:
-            message = 'failed'
-
-    except Exception as e:
-        print("failed : " + str(e))
-        message = "failed : " + str(e)
 
     return HttpResponse(message)
 

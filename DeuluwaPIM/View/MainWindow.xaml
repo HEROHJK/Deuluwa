@@ -51,7 +51,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="numberColumn" Header="번호" Binding="{Binding Path=index}"/>
                 <DataGridTextColumn x:Name="messageColumn" Header="메시지" Binding="{Binding Path=message}" Width="560"/>
-                <DataGridTextColumn x:Name="writerColumn" Header="글쓴이" Binding="{Binding Path=writer}" Width="100"/>
+                <DataGridTextColumn x:Name="writerColumn" Header="글쓴이" Binding="{Binding Path=user}" Width="100"/>
             </DataGrid.Columns>
 
             <DataGrid.Resources>

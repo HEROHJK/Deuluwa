@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
-using Newtonsoft.Json;
+using DeuluwaCore.Model;
 
 namespace DeuluwaPIM.View
 {
@@ -13,9 +13,9 @@ namespace DeuluwaPIM.View
     /// </summary>
     public partial class UserControlWindow
     {
-        List<Model.UserAddInformation> userList;
-        List<Model.UserCourse> courseList;
-        List<Model.Attendance> attendanceList;
+        List<User> userList;
+        List<CourseInformation> courseList;
+        List<Attendance> attendanceList;
 
         public UserControlWindow()
         {
@@ -29,9 +29,16 @@ namespace DeuluwaPIM.View
 
         private async void LoadUsers()
         {
-            
-            userList =  JsonConvert.DeserializeObject<List<Model.UserAddInformation>>
-                (await Constants.HttpRequest("http://silco.co.kr:18000/userlist"));
+            userList = new List<User>();
+
+            var list = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
+                (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/userlist"));
+
+            foreach(var dict in list)
+            {
+                userList.Add(new User(dict));
+            }
+
             userDatagrid.ItemsSource = userList;
         }
 
@@ -39,8 +46,15 @@ namespace DeuluwaPIM.View
         {
             try
             {
-                courseList = JsonConvert.DeserializeObject<List<Model.UserCourse>>
-                    (await Constants.HttpRequest("http://silco.co.kr:18000/usercourselist/?id=" + id));
+                courseList = new List<CourseInformation>();
+                var dictList = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
+                    (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/usercourselist/?id=" + id));
+
+                foreach(var dict in dictList)
+                {
+                    courseList.Add(new CourseInformation(dict));
+                }
+
                 courseDatagrid.ItemsSource = courseList;
             }
             catch { }
@@ -50,12 +64,13 @@ namespace DeuluwaPIM.View
         {
             try
             {
-                attendanceList = JsonConvert.DeserializeObject<List<Model.Attendance>>
-                    (await Constants.HttpRequest("http://silco.co.kr:18000/userattendancelist/?courseid=" + courseid + "&id=" + id));
+                attendanceList = new List<Attendance>();
+                List<Dictionary<string, string>> list = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
+                    (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/userattendancelist/?courseid=" + courseid + "&id=" + id));
 
-                foreach(var attendance in attendanceList)
+                foreach(var attendance in list)
                 {
-                    attendance.Change();
+                    attendanceList.Add(new Attendance(attendance));
                 }
 
                 attendanceDatagrid.ItemsSource = attendanceList;
@@ -67,7 +82,7 @@ namespace DeuluwaPIM.View
             }
         }
 
-        private void ViewUser(Model.UserAddInformation user)
+        private void ViewUser(User user)
         {
             //개인정보 로드
             idBox.Text = user.id;
@@ -126,14 +141,14 @@ namespace DeuluwaPIM.View
 
         private void userDatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.UserAddInformation item = userDatagrid.SelectedItem as Model.UserAddInformation;
+            User item = userDatagrid.SelectedItem as User;
 
             ViewUser(item);
         }
 
         private void courseDatagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.UserCourse item = courseDatagrid.SelectedItem as Model.UserCourse;
+            CourseInformation item = courseDatagrid.SelectedItem as CourseInformation;
 
             LoadAttendances(idBox.Text, item.index);
         }

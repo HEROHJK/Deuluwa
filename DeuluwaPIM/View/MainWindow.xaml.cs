@@ -1,13 +1,10 @@
-﻿using DeuluwaPIM.Model;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
+using DeuluwaCore.Model;
 
 namespace DeuluwaPIM.View
 {
@@ -35,17 +32,23 @@ namespace DeuluwaPIM.View
 
         private async void LoadNoticeData()
         {
-            NoticeList.list = await LoadData();
 
-            datagrid.ItemsSource = NoticeList.list;
+            Model.NoticeList.list = await LoadData();
+
+            datagrid.ItemsSource = Model.NoticeList.list;
         }
 
         private async Task<List<NoticeMessage>> LoadData()
         {
-            var result = Constants.HttpRequest("http://silco.co.kr:18000/notice");
-            var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(await result);
+            var result = DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/notice");
+            var array = DeuluwaCore.Controller.JsonConverter.GetDictionaryList(await result);
+            List<NoticeMessage> messageList = new List<NoticeMessage>();
+            foreach(var message in array)
+            {
+                messageList.Add(new NoticeMessage(message));
+            }
 
-            return array;
+            return messageList;
         }
 
         private void AccountManagement(object sender, RoutedEventArgs e)

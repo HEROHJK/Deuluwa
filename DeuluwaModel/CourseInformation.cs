@@ -11,8 +11,8 @@ namespace Deuluwa
             index = json.index;
             coursename = json.coursename;
             teacher = json.teacher;
-            starttime = Constants.MakeAMPM(json.starttime);
-            endtime = Constants.MakeAMPM(json.endtime);
+            starttime = Constants.MakeTime(json.starttime);
+            endtime = Constants.MakeTime(json.endtime);
             roomname = json.roomname;
             classday = Constants.MakeClassDay(json.classday);
         }

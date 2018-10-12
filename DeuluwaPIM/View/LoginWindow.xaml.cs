@@ -1,5 +1,4 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
-using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Windows;
@@ -21,16 +20,19 @@ namespace DeuluwaPIM.View
         {
             try
             {
-                string url = string.Format("http://silco.co.kr:18000/adminlogin/?id={0}&password={1}", idTextbox.Text, passwordTextbox.Password.ToString());
-                string result = await Constants.HttpRequest(url);
+                string url = string.Format("http://silco.co.kr:18000/user/?id={0}&password={1}", idTextbox.Text, passwordTextbox.Password.ToString());
+                string result = await DeuluwaCore.Constants.HttpRequest(url);
 
 
-                if (result == "success")
+                if (result.IndexOf("admin") > 0)
                 {
                     //로그인 성공 처리
                     MainWindow.loggined = true;
                     MainWindow.userId = idTextbox.Text;
-                    MainWindow.userName = JsonConvert.DeserializeObject<Model.UserAddInformation>(await Constants.HttpRequest(string.Format("http://silco.co.kr:18000/userinfo/?id={0}", idTextbox.Text))).name;
+                    MainWindow.userName = 
+                        DeuluwaCore.Controller.JsonConverter.GetDictionary
+                        (await DeuluwaCore.Constants.HttpRequest(string.Format("http://silco.co.kr:18000/userinfo/?id={0}", idTextbox.Text)))
+                        ["name"];
                     
                     if (!isAutologin) SaveData();
                     Close();

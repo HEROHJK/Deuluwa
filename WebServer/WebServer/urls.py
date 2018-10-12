@@ -23,8 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #사용자 로그인
     url(r'^user/$', views.getUserInfo),
-    #관리자 로그인
-    url(r'^adminlogin/$', views.adminLogin),
     #사용자 추가 정보 조회
     url(r'^userinfo/$', views.getUserAddInfo),
     #사용자 수강목록 조회

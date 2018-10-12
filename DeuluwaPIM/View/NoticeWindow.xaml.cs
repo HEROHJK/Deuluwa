@@ -1,6 +1,5 @@
-﻿using DeuluwaPIM.Model;
+﻿using DeuluwaCore.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -41,13 +40,13 @@ namespace DeuluwaPIM.View
             {
                 textBox.IsReadOnly = true;
                 writeButton.Content = "신규 작성";
-                foreach (NoticeMessage message in NoticeList.list)
+                foreach (var message in Model.NoticeList.list)
                 {
                     if (index == message.index)
                     {
                         textBox.Document.Blocks.Add(new Paragraph(new Run(message.message)));
-                        writerLabel.Content = message.writer;
-                        dateLabel.Content = message.date;
+                        writerLabel.Content = message.user;
+                        dateLabel.Content = message.time;
                         break;
                     }
                 }
@@ -56,16 +55,26 @@ namespace DeuluwaPIM.View
 
         private async void LoadNoticeData()
         {
-            NoticeList.list = await LoadData();
-            datagrid.ItemsSource = NoticeList.list;
+            Model.NoticeList.list = await LoadData();
+            datagrid.ItemsSource = Model.NoticeList.list;
+
+            WriteMode(false, Model.NoticeList.list[0].index);
         }
 
         private async Task<List<NoticeMessage>> LoadData()
         {
-            string result = await Constants.HttpRequest("http://silco.co.kr:18000/notice");
-            var array = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
+            var list =  DeuluwaCore.Controller.JsonConverter.GetDictionaryList(
+                await DeuluwaCore.Constants.HttpRequest(
+                    "http://silco.co.kr:18000/notice"
+                    ));
 
-            return array;
+            List<NoticeMessage> messageList = new List<NoticeMessage>();
+            foreach(var dict in list)
+            {
+                messageList.Add(new NoticeMessage(dict));
+            }
+
+            return messageList;
         }
 
         private async void datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -97,14 +106,10 @@ namespace DeuluwaPIM.View
                 {
                     string postData = string.Format("id={0}", MainWindow.userId);
                     postData += string.Format("&message={0}", new TextRange(textBox.Document.ContentStart, textBox.Document.ContentEnd).Text);
-                    string result = await Constants.HttpRequestPost("http://silco.co.kr:18000/writenoticemessage/", postData);
+                    string result = await DeuluwaCore.Constants.HttpRequestPost("http://silco.co.kr:18000/writenoticemessage/", postData);
                     try
                     {
-                        NoticeList.list = JsonConvert.DeserializeObject<List<NoticeMessage>>(result);
-
-                        WriteMode(false, NoticeList.list[0].index);
-
-                        datagrid.ItemsSource = NoticeList.list;
+                        LoadNoticeData();
                     }
                     catch
                     {

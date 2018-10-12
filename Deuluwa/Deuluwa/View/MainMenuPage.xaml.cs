@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using DeuluwaCore.Model;
 
 namespace Deuluwa
 {
@@ -55,7 +55,7 @@ namespace Deuluwa
 
         public async void DataLoad()
         {
-            string url = Constants.shared.GetData("url") + "userinfo/?id=" + Constants.shared.GetData("id");
+            string url = DeuluwaCore.Constants.shared.GetData("url") + "userinfo/?id=" + DeuluwaCore.Constants.shared.GetData("id");
 
             var uri = new Uri(url);
 
@@ -65,11 +65,10 @@ namespace Deuluwa
                 var content = await response.Content.ReadAsStringAsync();
                 try
                 {
-                    UserAddInformation info = JsonConvert.DeserializeObject<UserAddInformation>(content);
-                    Console.WriteLine(info);
-                    nameLabel.Text = info.name;
-                    addressLabel.Text = info.address;
-                    phoneNumberLabel.Text = info.phonenumber;
+                    Dictionary<string, string> info = DeuluwaCore.Controller.JsonConverter.GetDictionary(content);
+                    nameLabel.Text = info["name"];
+                    addressLabel.Text = info["address"];
+                    phoneNumberLabel.Text = info["phonenumber"];
                 }
                 catch
                 {

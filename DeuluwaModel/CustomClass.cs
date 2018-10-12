@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Deuluwa
+﻿namespace Deuluwa
 {
     public class CustomClassJson
     {
@@ -24,7 +20,8 @@ namespace Deuluwa
         {
             index = json.index;
             coursename = json.coursename;
-            classday = Constants.MakeClassDay(json.classday);
+            
+            classday = DeuluwaController.Constants.MakeClassDay(json.classday);
             coursedate = json.startdate + " - " + json.enddate;
             coursetime = Constants.MakeClassTime(json.starttime, json.endtime);
         }

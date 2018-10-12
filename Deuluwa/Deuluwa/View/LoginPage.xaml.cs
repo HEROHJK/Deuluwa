@@ -85,7 +85,7 @@ namespace Deuluwa
 
         public async void Login(string id, string password)
         {
-            string url = Constants.shared.GetData("url") + string.Format("user/?id={0}&password={1}", id, password);
+            string url = DeuluwaCore.Constants.shared.GetData("url") + string.Format("user/?id={0}&password={1}", id, password);
 
             var uri = new Uri(url);
 
@@ -97,7 +97,7 @@ namespace Deuluwa
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     Console.WriteLine(content);
-                    if (content == "success") result = true;
+                    if (content.IndexOf("success") >= 0) result = true;
                     else result = false;
                 }
                 else result = false;
@@ -115,9 +115,9 @@ namespace Deuluwa
                         LoginManager.AutoLoginDisable();
                     }
 
-                    Constants.shared.DeleteLoginInformation();
-                    Constants.shared.InsertData("id", id);
-                    Constants.shared.InsertData("password", password);
+                    DeuluwaCore.Constants.shared.DeleteLoginInformation();
+                    DeuluwaCore.Constants.shared.InsertData("id", id);
+                    DeuluwaCore.Constants.shared.InsertData("password", password);
                     Application.Current.MainPage = new NavigationPage(new MainMenuPage())
                     {
                         BarTextColor = Color.White,

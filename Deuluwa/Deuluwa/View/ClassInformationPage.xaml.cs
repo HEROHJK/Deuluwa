@@ -1,42 +1,37 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using DeuluwaCore.Model;
+using DeuluwaCore;
+
 namespace Deuluwa
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ClassInformationPage : ContentPage
-	{
+    public partial class ClassInformationPage : ContentPage
+    {
         HttpClient client = new HttpClient { MaxResponseContentBufferSize = 256000 };
-		public ClassInformationPage ()
-		{
-			InitializeComponent ();
+        public ClassInformationPage()
+        {
+            InitializeComponent();
             listView.RowHeight = (int)App.Current.MainPage.Height / 8;
             JoinHttp();
         }
 
-        private List<CustomClass> CoursesLoad(string httpString)
+        private List<CourseInformation> CoursesLoad(string httpString)
         {
-            List<CustomClassJson> jsonList = new List<CustomClassJson>();
+            List<CourseInformation> jsonList = new List<CourseInformation>();
 
-            try
+            List<Dictionary<string, string>> dictList = DeuluwaCore.Controller.JsonConverter.GetDictionaryList(httpString);
+
+            foreach (var dict in dictList)
             {
-                jsonList = JsonConvert.DeserializeObject<List<CustomClassJson>>(httpString);
+                jsonList.Add(new CourseInformation(dict));
             }
-            catch { }
-
-            List<CustomClass> list = new List<CustomClass>();
-
-            foreach(CustomClassJson json in jsonList)
-            {
-                list.Add(new CustomClass(json));
-            }
-
-            return list;
+            return jsonList;
         }
 
         private async void JoinHttp()
@@ -59,7 +54,7 @@ namespace Deuluwa
 
         private void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            CustomClass customClass = e.Item as CustomClass;
+            CourseInformation customClass = e.Item as CourseInformation;
             Navigation.PushAsync(new CourseInformationPage(customClass.index));
         }
     }
