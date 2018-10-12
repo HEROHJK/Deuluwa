@@ -1,5 +1,5 @@
 # DeuluwaPIM(Deuluwa Personal Information Management)
-![](screenshot.png)
+![](https://github.com/HEROHJK/Deuluwa/blob/master/DeuluwaPIM/screenshot.PNG?raw=True)
 ## 설명
 Deuluwa의 관리자 프로그램으로써, 다음의 기능이 있음.
 * 회원 관리
