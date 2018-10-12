@@ -47,6 +47,7 @@
 |nfcId|NFC 고유값|text, not null|
 |latitude|강의실 위도|double, not null|
 |longitude|강의실 경도|double, not null|
+|name|강의실 이름|text, not null|
 
 ### 수업(course)
 |물리이름|논리이름|비고|
@@ -80,8 +81,8 @@
 |userId|사용자 ID|text, not null, primary key, 사용자 외래 키|
 |courseId|수업인덱스|int, not null, 수업 외래 키|
 |attendanced|출석 여부|boolean, not null|
-|attendanceTime| 출석 시간| date|
-
+|checkdate| 출석 일자| date, not null|
+|checktime| 출석 시간| time, not null|
 
 ### 로그인세션(loginSession)
 |물리이름|논리이름|비고|
@@ -90,3 +91,11 @@
 |value|세션값|text, not null|
 |lastTime|마지막 응답 시간|date, not null|
 
+### 전달사항(notice)
+|물리이름|논리이름|비고|
+|--|--|--|
+|index|번호|int, not null, primarykey|
+|message|글 내용|text, not null|
+|user|글쓴이|text, not null, 사용자 외래키|
+|date|날짜|date, not null|
+|time|시간|time, not null|

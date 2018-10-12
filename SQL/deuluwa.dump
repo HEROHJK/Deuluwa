@@ -38,10 +38,11 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE public.attendancerecord (
+    index integer NOT NULL,
     userid text NOT NULL,
-    courseid integer NOT NULL,
-    attendanced boolean DEFAULT false NOT NULL,
-    attendancetime date
+    courseid integer,
+    checkdate date NOT NULL,
+    checktime character(5) NOT NULL
 );
 
 
@@ -51,7 +52,14 @@ ALTER TABLE public.attendancerecord OWNER TO herohjk;
 -- Name: TABLE attendancerecord; Type: COMMENT; Schema: public; Owner: herohjk
 --
 
-COMMENT ON TABLE public.attendancerecord IS '출석 기록';
+COMMENT ON TABLE public.attendancerecord IS '출석 정보';
+
+
+--
+-- Name: COLUMN attendancerecord.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.attendancerecord.index IS '고유 인덱스';
 
 
 --
@@ -65,21 +73,42 @@ COMMENT ON COLUMN public.attendancerecord.userid IS '사용자 ID';
 -- Name: COLUMN attendancerecord.courseid; Type: COMMENT; Schema: public; Owner: herohjk
 --
 
-COMMENT ON COLUMN public.attendancerecord.courseid IS '수업 id';
+COMMENT ON COLUMN public.attendancerecord.courseid IS '수업 인덱스';
 
 
 --
--- Name: COLUMN attendancerecord.attendanced; Type: COMMENT; Schema: public; Owner: herohjk
+-- Name: COLUMN attendancerecord.checkdate; Type: COMMENT; Schema: public; Owner: herohjk
 --
 
-COMMENT ON COLUMN public.attendancerecord.attendanced IS '출석 여부';
+COMMENT ON COLUMN public.attendancerecord.checkdate IS '출석일자';
 
 
 --
--- Name: COLUMN attendancerecord.attendancetime; Type: COMMENT; Schema: public; Owner: herohjk
+-- Name: COLUMN attendancerecord.checktime; Type: COMMENT; Schema: public; Owner: herohjk
 --
 
-COMMENT ON COLUMN public.attendancerecord.attendancetime IS '출석 시간';
+COMMENT ON COLUMN public.attendancerecord.checktime IS '출석시간';
+
+
+--
+-- Name: attendancerecord_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
+--
+
+CREATE SEQUENCE public.attendancerecord_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.attendancerecord_index_seq OWNER TO herohjk;
+
+--
+-- Name: attendancerecord_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
+--
+
+ALTER SEQUENCE public.attendancerecord_index_seq OWNED BY public.attendancerecord.index;
 
 
 --
@@ -445,6 +474,209 @@ ALTER SEQUENCE public.courseinformation_index_seq OWNED BY public.courseinformat
 
 
 --
+-- Name: courseview; Type: VIEW; Schema: public; Owner: herohjk
+--
+
+CREATE VIEW public.courseview AS
+ SELECT c.index,
+    ci.coursename,
+    c.lectureindex,
+    c.lectureroomindex,
+    ci.courseindex,
+    ci.startdate,
+    ci.enddate,
+    ci.starttime,
+    ci.coursetime,
+    ci.classday
+   FROM (public.course c
+     JOIN public.courseinformation ci ON ((c.index = ci.courseindex)));
+
+
+ALTER TABLE public.courseview OWNER TO herohjk;
+
+--
+-- Name: lectureroom; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.lectureroom (
+    index integer NOT NULL,
+    nfcid text NOT NULL,
+    latitude double precision NOT NULL,
+    longitude double precision NOT NULL,
+    name text NOT NULL
+);
+
+
+ALTER TABLE public.lectureroom OWNER TO herohjk;
+
+--
+-- Name: TABLE lectureroom; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.lectureroom IS '강의실';
+
+
+--
+-- Name: COLUMN lectureroom.index; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.index IS '강의실 고유 id';
+
+
+--
+-- Name: COLUMN lectureroom.nfcid; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.nfcid IS 'NFC 고유 id';
+
+
+--
+-- Name: COLUMN lectureroom.latitude; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.latitude IS '강의실 위도';
+
+
+--
+-- Name: COLUMN lectureroom.longitude; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.longitude IS '강의실 경도';
+
+
+--
+-- Name: COLUMN lectureroom.name; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.lectureroom.name IS '강의실 명';
+
+
+--
+-- Name: user; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public."user" (
+    id text NOT NULL,
+    password text NOT NULL,
+    admin boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public."user" OWNER TO herohjk;
+
+--
+-- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public."user" IS '사용자 정보 테이블';
+
+
+--
+-- Name: COLUMN "user".id; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".id IS '사용자 ID';
+
+
+--
+-- Name: COLUMN "user".password; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".password IS '사용자 비밀번호(MD5)';
+
+
+--
+-- Name: COLUMN "user".admin; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public."user".admin IS '관리자 여부';
+
+
+--
+-- Name: userinformation; Type: TABLE; Schema: public; Owner: herohjk
+--
+
+CREATE TABLE public.userinformation (
+    id text NOT NULL,
+    address text,
+    phonenumber text,
+    name text NOT NULL
+);
+
+
+ALTER TABLE public.userinformation OWNER TO herohjk;
+
+--
+-- Name: TABLE userinformation; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON TABLE public.userinformation IS '사용자 상세 정보';
+
+
+--
+-- Name: COLUMN userinformation.id; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.id IS '사용자 id';
+
+
+--
+-- Name: COLUMN userinformation.address; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.address IS '주소';
+
+
+--
+-- Name: COLUMN userinformation.phonenumber; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.phonenumber IS '전화번호';
+
+
+--
+-- Name: COLUMN userinformation.name; Type: COMMENT; Schema: public; Owner: herohjk
+--
+
+COMMENT ON COLUMN public.userinformation.name IS '이름';
+
+
+--
+-- Name: userview; Type: VIEW; Schema: public; Owner: herohjk
+--
+
+CREATE VIEW public.userview AS
+ SELECT u.id,
+    u.admin,
+    ui.name,
+    ui.address,
+    ui.phonenumber
+   FROM (public."user" u
+     JOIN public.userinformation ui ON ((u.id = ui.id)));
+
+
+ALTER TABLE public.userview OWNER TO herohjk;
+
+--
+-- Name: courseinfoview; Type: VIEW; Schema: public; Owner: herohjk
+--
+
+CREATE VIEW public.courseinfoview AS
+ SELECT cv.index,
+    cv.coursename,
+    uv.name AS teacher,
+    cv.starttime,
+    cv.coursetime,
+    l.name AS roomname,
+    cv.classday
+   FROM ((public.courseview cv
+     JOIN public.userview uv ON ((cv.lectureindex = uv.id)))
+     JOIN public.lectureroom l ON ((cv.lectureroomindex = l.index)));
+
+
+ALTER TABLE public.courseinfoview OWNER TO herohjk;
+
+--
 -- Name: coursestudent; Type: TABLE; Schema: public; Owner: herohjk
 --
 
@@ -629,55 +861,6 @@ CREATE TABLE public.django_session (
 ALTER TABLE public.django_session OWNER TO django;
 
 --
--- Name: lectureroom; Type: TABLE; Schema: public; Owner: herohjk
---
-
-CREATE TABLE public.lectureroom (
-    index integer NOT NULL,
-    nfcid text NOT NULL,
-    latitude double precision NOT NULL,
-    longitude double precision NOT NULL
-);
-
-
-ALTER TABLE public.lectureroom OWNER TO herohjk;
-
---
--- Name: TABLE lectureroom; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON TABLE public.lectureroom IS '강의실';
-
-
---
--- Name: COLUMN lectureroom.index; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.lectureroom.index IS '강의실 고유 id';
-
-
---
--- Name: COLUMN lectureroom.nfcid; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.lectureroom.nfcid IS 'NFC 고유 id';
-
-
---
--- Name: COLUMN lectureroom.latitude; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.lectureroom.latitude IS '강의실 위도';
-
-
---
--- Name: COLUMN lectureroom.longitude; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.lectureroom.longitude IS '강의실 경도';
-
-
---
 -- Name: lectureroom_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
 --
 
@@ -733,93 +916,46 @@ COMMENT ON COLUMN public.loginsession.lasttime IS '마지막 응답 시간';
 
 
 --
--- Name: user; Type: TABLE; Schema: public; Owner: herohjk
+-- Name: notice; Type: TABLE; Schema: public; Owner: herohjk
 --
 
-CREATE TABLE public."user" (
-    id text NOT NULL,
-    password text NOT NULL,
-    admin boolean DEFAULT false NOT NULL
+CREATE TABLE public.notice (
+    index integer NOT NULL,
+    message text NOT NULL,
+    "user" text NOT NULL,
+    date date DEFAULT timezone('Asia/Seoul'::text, now()) NOT NULL,
+    "time" time without time zone DEFAULT timezone('Asia/Seoul'::text, now()) NOT NULL
 );
 
 
-ALTER TABLE public."user" OWNER TO herohjk;
+ALTER TABLE public.notice OWNER TO herohjk;
 
 --
--- Name: TABLE "user"; Type: COMMENT; Schema: public; Owner: herohjk
+-- Name: notice_index_seq; Type: SEQUENCE; Schema: public; Owner: herohjk
 --
 
-COMMENT ON TABLE public."user" IS '사용자 정보 테이블';
+CREATE SEQUENCE public.notice_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
---
--- Name: COLUMN "user".id; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public."user".id IS '사용자 ID';
-
-
---
--- Name: COLUMN "user".password; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public."user".password IS '사용자 비밀번호(MD5)';
-
+ALTER TABLE public.notice_index_seq OWNER TO herohjk;
 
 --
--- Name: COLUMN "user".admin; Type: COMMENT; Schema: public; Owner: herohjk
+-- Name: notice_index_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: herohjk
 --
 
-COMMENT ON COLUMN public."user".admin IS '관리자 여부';
+ALTER SEQUENCE public.notice_index_seq OWNED BY public.notice.index;
 
 
 --
--- Name: userinformation; Type: TABLE; Schema: public; Owner: herohjk
+-- Name: attendancerecord index; Type: DEFAULT; Schema: public; Owner: herohjk
 --
 
-CREATE TABLE public.userinformation (
-    id text NOT NULL,
-    address text,
-    phonenumber text,
-    name text NOT NULL
-);
-
-
-ALTER TABLE public.userinformation OWNER TO herohjk;
-
---
--- Name: TABLE userinformation; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON TABLE public.userinformation IS '사용자 상세 정보';
-
-
---
--- Name: COLUMN userinformation.id; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.userinformation.id IS '사용자 id';
-
-
---
--- Name: COLUMN userinformation.address; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.userinformation.address IS '주소';
-
-
---
--- Name: COLUMN userinformation.phonenumber; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.userinformation.phonenumber IS '전화번호';
-
-
---
--- Name: COLUMN userinformation.name; Type: COMMENT; Schema: public; Owner: herohjk
---
-
-COMMENT ON COLUMN public.userinformation.name IS '이름';
+ALTER TABLE ONLY public.attendancerecord ALTER COLUMN index SET DEFAULT nextval('public.attendancerecord_index_seq'::regclass);
 
 
 --
@@ -914,11 +1050,28 @@ ALTER TABLE ONLY public.lectureroom ALTER COLUMN index SET DEFAULT nextval('publ
 
 
 --
+-- Name: notice index; Type: DEFAULT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.notice ALTER COLUMN index SET DEFAULT nextval('public.notice_index_seq'::regclass);
+
+
+--
 -- Data for Name: attendancerecord; Type: TABLE DATA; Schema: public; Owner: herohjk
 --
 
-COPY public.attendancerecord (userid, courseid, attendanced, attendancetime) FROM stdin;
+COPY public.attendancerecord (index, userid, courseid, checkdate, checktime) FROM stdin;
+1	herohjk	1	2018-09-03	1628 
+2	herohjk	1	2018-09-05	1635 
+3	herohjk	1	2018-09-07	1805 
 \.
+
+
+--
+-- Name: attendancerecord_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.attendancerecord_index_seq', 3, true);
 
 
 --
@@ -1012,6 +1165,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 54	Can change loginsession	14	change_loginsession
 55	Can delete loginsession	14	delete_loginsession
 56	Can view loginsession	14	view_loginsession
+57	Can add notice	15	add_notice
+58	Can change notice	15	change_notice
+59	Can delete notice	15	delete_notice
+60	Can view notice	15	view_notice
 \.
 
 
@@ -1019,7 +1176,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 56, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 60, true);
 
 
 --
@@ -1075,6 +1232,8 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 COPY public.course (index, lectureindex, lectureroomindex) FROM stdin;
 1	herohjk	1
 2	herohjk	1
+4	testuser	1
+5	admin	1
 \.
 
 
@@ -1082,7 +1241,7 @@ COPY public.course (index, lectureindex, lectureroomindex) FROM stdin;
 -- Name: course_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
 --
 
-SELECT pg_catalog.setval('public.course_index_seq', 2, true);
+SELECT pg_catalog.setval('public.course_index_seq', 5, true);
 
 
 --
@@ -1092,6 +1251,8 @@ SELECT pg_catalog.setval('public.course_index_seq', 2, true);
 COPY public.courseinformation (courseindex, startdate, enddate, starttime, coursetime, classday, coursename, index) FROM stdin;
 1	2018-09-01	2018-12-31	1630	90	TFTFTFF	영어1	1
 2	2018-09-01	2018-12-31	1800	90	TFTFTFF	외국인 회화	2
+4	2018-09-09	2019-09-30	0100	90	FTFTFTF	새벽 수학 특강	3
+5	2018-09-01	2019-09-20	2330	90	FTFTFTF	심야 코딩 특강	4
 \.
 
 
@@ -1099,7 +1260,7 @@ COPY public.courseinformation (courseindex, startdate, enddate, starttime, cours
 -- Name: courseinformation_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
 --
 
-SELECT pg_catalog.setval('public.courseinformation_index_seq', 2, true);
+SELECT pg_catalog.setval('public.courseinformation_index_seq', 4, true);
 
 
 --
@@ -1110,6 +1271,8 @@ COPY public.coursestudent (couseid, userid, index) FROM stdin;
 1	herohjk	1
 1	testuser	2
 2	herohjk	4
+4	herohjk	5
+5	herohjk	6
 \.
 
 
@@ -1117,7 +1280,7 @@ COPY public.coursestudent (couseid, userid, index) FROM stdin;
 -- Name: coursestudent_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
 --
 
-SELECT pg_catalog.setval('public.coursestudent_index_seq', 4, true);
+SELECT pg_catalog.setval('public.coursestudent_index_seq', 6, true);
 
 
 --
@@ -1125,6 +1288,8 @@ SELECT pg_catalog.setval('public.coursestudent_index_seq', 4, true);
 --
 
 COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2018-09-21 14:33:21.175809+09	test	User object (test)	1	[{"added": {}}]	9	1
+2	2018-09-21 14:34:42.803959+09	test	User object (test)	3		9	1
 \.
 
 
@@ -1132,7 +1297,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 2, true);
 
 
 --
@@ -1154,6 +1319,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 12	deuluwa	userinformation
 13	deuluwa	coursestudent
 14	deuluwa	loginsession
+15	deuluwa	notice
 \.
 
 
@@ -1161,7 +1327,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 14, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 15, true);
 
 
 --
@@ -1186,6 +1352,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 15	deuluwa	0001_initial	2018-09-17 11:18:00.521489+09
 16	sessions	0001_initial	2018-09-17 11:18:00.592435+09
 17	deuluwa	0002_coursestudent_loginsession	2018-09-19 12:53:10.323113+09
+18	deuluwa	0003_notice	2018-10-05 13:09:54.640702+09
 \.
 
 
@@ -1193,7 +1360,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: django
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 17, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 18, true);
 
 
 --
@@ -1209,8 +1376,8 @@ q44aiv8do2a1zrw0s3697z8n7wtc2ruu	NTIwNWNlZTU4MDgwZTk2MjY5OGNmZjZhNmI5ZmFkODE0MGI
 -- Data for Name: lectureroom; Type: TABLE DATA; Schema: public; Owner: herohjk
 --
 
-COPY public.lectureroom (index, nfcid, latitude, longitude) FROM stdin;
-1	proto001	37.5100564999999975	126.888547200000005
+COPY public.lectureroom (index, nfcid, latitude, longitude, name) FROM stdin;
+1	proto001	37.5100564999999975	126.888547200000005	테스트교실
 \.
 
 
@@ -1230,13 +1397,46 @@ COPY public.loginsession (userid, value, lasttime) FROM stdin;
 
 
 --
+-- Data for Name: notice; Type: TABLE DATA; Schema: public; Owner: herohjk
+--
+
+COPY public.notice (index, message, "user", date, "time") FROM stdin;
+1	테스트	herohjk	2018-10-05	11:07:00
+2	WPF 프로그램 개발안내	admin	2018-10-05	05:06:46.028198
+3	날짜 테스트	admin	2018-10-05	14:10:36.143847
+6	김호종김호종김호종!	herohjk	2018-10-05	19:08:48
+7	파이썬 API 등록 테스트	herohjk	2018-10-05	19:09:49
+8	?? ??? ???\r\n	herohjk	2018-10-05	20:16:03
+9	테슷흐\r\n	herohjk	2018-10-05	20:18:26
+10	이제야 제법 잘 되는 것 같네요\r\n\r\n후후후..\r\n\r\n모두 행복하시길!\r\n\r\n행쇼!\r\n	herohjk	2018-10-05	20:20:03
+11	서순이 중요하다 이말이야...\r\n	herohjk	2018-10-05	20:20:54
+12	(긴급) 이번 주말까지 운영회비 20억 입금 부탁드립니다.\r\n	admin	2018-10-05	20:27:45
+13	전달사항 등록 테스트\r\n	herohjk	2018-10-06	15:29:17
+14	작성 테슷흐\r\n	herohjk	2018-10-10	16:09:59
+15	다이얼로그 테스트\r\n	herohjk	2018-10-10	16:17:10
+16	다얄로그 테스트2\r\n	herohjk	2018-10-10	16:18:07
+17	다얄로그 테스트3\r\n	herohjk	2018-10-12	14:19:52
+18	다얄로그 테스트4\r\n	herohjk	2018-10-12	14:20:31
+19	test\r\n	herohjk	2018-10-12	14:21:28
+20	tttt5\r\n	herohjk	2018-10-12	14:22:21
+\.
+
+
+--
+-- Name: notice_index_seq; Type: SEQUENCE SET; Schema: public; Owner: herohjk
+--
+
+SELECT pg_catalog.setval('public.notice_index_seq', 20, true);
+
+
+--
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: herohjk
 --
 
 COPY public."user" (id, password, admin) FROM stdin;
-herohjk	da18d4abcfab1f1abfb19697a332324d	t
 admin	da18d4abcfab1f1abfb19697a332324d	t
 testuser	098f6bcd4621d373cade4e832627b4f6	f
+herohjk	24dbfc35919dfa3b926d2b3fda619c55	t
 \.
 
 
@@ -1256,7 +1456,7 @@ testuser	백악관	01000000000	테스트 계정
 --
 
 ALTER TABLE ONLY public.attendancerecord
-    ADD CONSTRAINT attendancerecord_pkey PRIMARY KEY (userid);
+    ADD CONSTRAINT attendancerecord_pkey PRIMARY KEY (index);
 
 
 --
@@ -1433,6 +1633,14 @@ ALTER TABLE ONLY public.lectureroom
 
 ALTER TABLE ONLY public.loginsession
     ADD CONSTRAINT loginsession_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: notice notice_pkey; Type: CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.notice
+    ADD CONSTRAINT notice_pkey PRIMARY KEY (index);
 
 
 --
@@ -1679,18 +1887,19 @@ ALTER TABLE ONLY public.loginsession
 
 
 --
+-- Name: notice noticeuser_userid; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
+--
+
+ALTER TABLE ONLY public.notice
+    ADD CONSTRAINT noticeuser_userid FOREIGN KEY ("user") REFERENCES public."user"(id);
+
+
+--
 -- Name: userinformation userinformationid_userid; Type: FK CONSTRAINT; Schema: public; Owner: herohjk
 --
 
 ALTER TABLE ONLY public.userinformation
     ADD CONSTRAINT userinformationid_userid FOREIGN KEY (id) REFERENCES public."user"(id);
-
-
---
--- Name: TABLE attendancerecord; Type: ACL; Schema: public; Owner: herohjk
---
-
-GRANT ALL ON TABLE public.attendancerecord TO django;
 
 
 --
@@ -1722,13 +1931,6 @@ GRANT ALL ON TABLE public.lectureroom TO django;
 
 
 --
--- Name: SEQUENCE lectureroom_index_seq; Type: ACL; Schema: public; Owner: herohjk
---
-
-GRANT ALL ON SEQUENCE public.lectureroom_index_seq TO django;
-
-
---
 -- Name: TABLE "user"; Type: ACL; Schema: public; Owner: herohjk
 --
 
@@ -1740,6 +1942,13 @@ GRANT ALL ON TABLE public."user" TO django;
 --
 
 GRANT ALL ON TABLE public.userinformation TO django;
+
+
+--
+-- Name: SEQUENCE lectureroom_index_seq; Type: ACL; Schema: public; Owner: herohjk
+--
+
+GRANT ALL ON SEQUENCE public.lectureroom_index_seq TO django;
 
 
 --
