@@ -27,12 +27,10 @@ urlpatterns = [
     url(r'^userinfo/$', views.getUserAddInfo),
     #사용자 수강목록 조회
     url(r'^usercourselist/$', views.getUserCourseList),
-    #수업 정보 조회
-    url(r'^courseinformation/$',views.getCourseInformation),
     #수업 사용자 출석목록 조회
     url(r'^userattendancelist/$', views.getAttendanceCheckList),
     #수업 상세정보 조회
-    url(r'^coursetotalinformation/$', views.getCourseTotalInformation),
+    url(r'^courseinformation/$', views.getCourseTotalInformation),
     #공지사항 조회
     url(r'^notice', views.getNoticeMessages),
     #공지사항 작성

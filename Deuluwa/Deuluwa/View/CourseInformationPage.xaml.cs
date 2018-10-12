@@ -27,7 +27,7 @@ namespace Deuluwa
         private async void GetCourseInformation(string index)
         {
             string url = DeuluwaCore.Constants.shared.GetData("url") +
-                "coursetotalinformation/?courseid=" +
+                "courseinformation/?courseid=" +
                 index;
 
             Uri uri = new Uri(url);

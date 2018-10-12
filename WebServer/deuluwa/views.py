@@ -79,29 +79,6 @@ def getUserCourseList(request):
 
     return HttpResponse(message)
 
-#수업정보 출력
-def getCourseInformation(request):
-    try:
-        inputCourseId = request.GET.get('courseid')
-        cursor = connection.cursor()
-        cursor.execute("SELECT courseinformation.coursename, userinformation.name teacher, courseinformation.starttime, courseinformation.coursetime, lectureroom.name lectureroomname FROM courseinformation, userinformation, lectureroom, course WHERE courseinformation.courseindex = course.index AND course.lectureroomindex = lectureroom.index AND course.lectureindex = userinformation.id AND course.index = '{index}';".format(index=inputCourseId))
-
-        raw = cursor.fetchone()
-
-        jsondata = {'coursename':str(raw[0]),
-                    'teacher':str(raw[1]),
-                    'starttime':str(raw[2]),
-                    'coursetime':str(raw[3]),
-                    'lectureroomname':str(raw[4])}
-
-        message = json.dumps(jsondata,ensure_ascii=False)
-
-    except Exception as e:
-        print('실패 원인 : ' + str(e))
-        message = 'failed'
-
-    return HttpResponse(message)
-
 #출석정보 조회
 def getAttendanceCheckList(request):
     try:
@@ -147,7 +124,10 @@ def getCourseTotalInformation(request):
                        'starttime':str(checkTime[0].strftime("%H:%M")),
                        'endtime':str(checkTime[1].strftime("%H:%M")),
                        'roomname':str(result[0][5]),
-                       'classday':str(result[0][6])}
+                       'classday':str(result[0][6]),
+                       'startdate':str(Courseinformation.objects.filter(courseindex=result[0][0]).first().startdate),
+                       'enddate': str(Courseinformation.objects.filter(courseindex=result[0][0]).first().enddate)
+                       }
             message = json.dumps(myTuple,ensure_ascii=False)
 
         else:
