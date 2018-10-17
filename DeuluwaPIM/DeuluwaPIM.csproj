@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F12492A8-7561-4525-9E06-DFDEFA375B69}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>DeuluwaPIM</RootNamespace>
     <AssemblyName>DeuluwaPIM</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

@@ -37,4 +37,10 @@ urlpatterns = [
     url(r'^writenoticemessage', views.writeNoticeMessage),
     #사용자목록 조회
     url(r'^userlist', views.getUserList),
+    #사용자 정보 업데이트
+    url(r'^userupdate', views.updateUserInformation),
+    #사용자 등록
+    url(r'^useradd', views.addUser),
+    #비밀번호 초기화
+    url(r'^resetpassword/$', views.passwordReset),
 ]

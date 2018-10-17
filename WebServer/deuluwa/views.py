@@ -1,5 +1,3 @@
-from rest_framework import viewsets
-from deuluwa.serializers import UserSerializer
 from deuluwa.models import User, Userinformation, Courseinformation, Attendancerecord, Notice
 from django.http import HttpResponse
 from deuluwa.funcs import getEndTime, getTime, tardyCheck, makeDateTime
@@ -141,7 +139,7 @@ def getCourseTotalInformation(request):
 #사용자 목록 출력
 def getUserList(request):
     try:
-        objects = Userinformation.objects.all()
+        objects = Userinformation.objects.order_by('id').all()
 
         list = []
 
@@ -213,6 +211,115 @@ def writeNoticeMessage(request):
             })
 
         message = json.dumps(noticeList, ensure_ascii=False)
+
+    except Exception as e:
+        message = 'failed : ' + str(e)
+
+    return HttpResponse(message)
+
+#사용자 정보 업데이트
+@csrf_exempt
+def updateUserInformation(request):
+    try:
+        inputId = request.POST['id']
+        inputName = request.POST['name']
+        inputPhonenumber = request.POST['phonenumber']
+        inputAddress = request.POST['address']
+
+        userinfo = Userinformation.objects.get(id=inputId)
+        print(userinfo)
+        userinfo.name=inputName
+        userinfo.phonenumber=inputPhonenumber
+        userinfo.address=inputAddress
+        userinfo.save()
+
+        objects = Userinformation.objects.order_by('id').all()
+
+        list = []
+
+        message = 'test'
+        for obj in objects:
+            list.append({
+                'id': str(obj.id.id),
+                'name': str(obj.name),
+                'address': str(obj.address),
+                'phonenumber': str(obj.phonenumber),
+                'admin': str(obj.id.admin)
+            })
+
+        message = json.dumps(list, ensure_ascii=False)
+        
+    except Exception as e:
+        message = 'failed : ' + str(e)
+
+    return HttpResponse(message)
+
+#사용자 등록
+@csrf_exempt
+def addUser(request):
+    try:
+        inputId = request.POST['id']
+        inputName = request.POST['name']
+        inputPhonenumber = request.POST['phonenumber']
+        inputAddress = request.POST['address']
+        inputAdmin = request.POST['admin']
+
+        admin = inputAdmin == 'True' if True else False
+
+        cursor = connection.cursor()
+        #command = "SELECT * FROM courseinfoview WHERE index='{index}';".format(index=inputCourseId)
+        command = "SELECT MD5('{md5pass}');".format(md5pass = inputPhonenumber)
+        cursor.execute(command)
+        makePassword = cursor.fetchall()[0][0]
+
+        User.objects.create(id=inputId, password=makePassword, admin=admin)
+
+        Userinformation.objects.create(
+            id=User.objects.filter(id=inputId).get(),
+            name=inputName,
+            phonenumber=inputPhonenumber,
+            address=inputAddress,
+        )
+
+        objects = Userinformation.objects.order_by('id').all()
+
+        list = []
+
+        for obj in objects:
+            list.append({
+                'id': str(obj.id.id),
+                'name': str(obj.name),
+                'address': str(obj.address),
+                'phonenumber': str(obj.phonenumber),
+                'admin': str(obj.id.admin)
+            })
+
+        message = json.dumps(list, ensure_ascii=False)
+
+    except Exception as e:
+        message = 'failed : ' + str(e)
+
+    return HttpResponse(message)
+
+#비밀번호 초기화
+@csrf_exempt
+def passwordReset(request):
+    try:
+        inputId = request.GET.get('id')
+
+        user = User.objects.filter(id=inputId).first()
+
+        cursor = connection.cursor()
+        # command = "SELECT * FROM courseinfoview WHERE index='{index}';".format(index=inputCourseId)
+        command = "SELECT MD5('{md5pass}');".format(md5pass=Userinformation.objects.filter(id=user).first().phonenumber)
+        cursor.execute(command)
+        makePassword = cursor.fetchall()[0][0]
+
+        user.password=makePassword
+        user.save()
+
+        message='success'
+
 
     except Exception as e:
         message = 'failed : ' + str(e)

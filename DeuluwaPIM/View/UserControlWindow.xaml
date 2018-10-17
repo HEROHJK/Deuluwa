@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="사용자 관리" Height="720" Width="932" ResizeMode="NoResize">
     <Grid>
-        <DataGrid x:Name="userDatagrid" HorizontalAlignment="Left" Height="474" Margin="732,52,0,0" VerticalAlignment="Top" Width="188" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="userDatagrid_SelectionChanged">
+        <DataGrid x:Name="userDatagrid" HorizontalAlignment="Left" Height="474" Margin="732,52,0,0" VerticalAlignment="Top" Width="188" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="userDatagrid_SelectionChanged" PreviewMouseDown="userDatagrid_PreviewMouseDown">
 
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
@@ -23,13 +23,13 @@
                 <DataGridTextColumn x:Name="idColumn" Header="ID" Binding="{Binding Path=id}" Width="188"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="신규 등록" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,531,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold"/>
+        <Button x:Name="insertButton" Content="신규 등록" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,531,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold" Click="InsertUserClick"/>
         <Button Content="정보 수정" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="732,606,0,0" VerticalAlignment="Top" Width="188" Height="75" FontSize="20" FontWeight="Bold" Click="ModifyButton_Click"/>
         <Label Content="ID : " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="이름 : " HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="주소 : " HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Label Content="연락처 : " HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Controls:ToggleSwitch x:Name="autoLoginSwitch" Content="관리자"  HorizontalAlignment="Center" Margin="399,10,373,644" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Width="154" Height="37"/>
+        <Controls:ToggleSwitch x:Name="isAdminSwitch" Content="관리자"  HorizontalAlignment="Center" Margin="399,10,373,644" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Width="154" Height="37"/>
         <Label Content="수강 수업 : " HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <TextBox x:Name="idBox" IsReadOnly="True" HorizontalAlignment="Left" Height="37" Margin="156,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
         <TextBox x:Name="nameBox" Controls:TextBoxHelper.Watermark="홍길동" HorizontalAlignment="Left" Height="37" Margin="156,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" FontSize="20" FontWeight="Bold"/>
@@ -65,7 +65,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="출석 목록 : " HorizontalAlignment="Left" Margin="314,178,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Button Content="비밀번호 초기화" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="558,10,0,0" VerticalAlignment="Top" Width="169" Height="37" FontSize="20" FontWeight="Bold"/>
+        <Button Content="비밀번호 초기화" Style="{StaticResource AccentedSquareButtonStyle}" BorderBrush="White" Foreground="White" HorizontalAlignment="Left" Margin="558,10,0,0" VerticalAlignment="Top" Width="169" Height="37" FontSize="20" FontWeight="Bold" Click="PasswordReset"/>
         <TextBox Controls:TextBoxHelper.Watermark="검색" HorizontalAlignment="Left" Height="37" Margin="732,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" FontSize="20" FontWeight="Bold"/>
     </Grid>
 </Controls:MetroWindow>
