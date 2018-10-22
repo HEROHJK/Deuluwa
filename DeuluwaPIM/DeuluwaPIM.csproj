@@ -71,12 +71,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="NoticeList.cs" />
+    <Compile Include="View\CourseWindow.xaml.cs">
+      <DependentUpon>CourseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NoticeWindow.xaml.cs">
       <DependentUpon>NoticeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControlWindow.xaml.cs">
       <DependentUpon>UserControlWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\CourseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

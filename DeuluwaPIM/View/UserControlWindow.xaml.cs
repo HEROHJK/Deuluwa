@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using DeuluwaCore.Model;
 using System.Threading.Tasks;
-using System;
 
 namespace DeuluwaPIM.View
 {
@@ -16,6 +15,7 @@ namespace DeuluwaPIM.View
         List<User> userList;
         List<CourseInformation> courseList;
         List<Attendance> attendanceList;
+
         bool addMode = false;
 
         public UserControlWindow()
@@ -35,7 +35,7 @@ namespace DeuluwaPIM.View
             var list = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
                 (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/userlist"));
 
-            foreach(var dict in list)
+            foreach (var dict in list)
             {
                 userList.Add(new User(dict));
             }
@@ -68,7 +68,7 @@ namespace DeuluwaPIM.View
                 var dictList = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
                     (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/usercourselist/?id=" + id));
 
-                foreach(var dict in dictList)
+                foreach (var dict in dictList)
                 {
                     courseList.Add(new CourseInformation(dict));
                 }
@@ -86,7 +86,7 @@ namespace DeuluwaPIM.View
                 List<Dictionary<string, string>> list = DeuluwaCore.Controller.JsonConverter.GetDictionaryList
                     (await DeuluwaCore.Constants.HttpRequest("http://silco.co.kr:18000/userattendancelist/?courseid=" + courseid + "&id=" + id));
 
-                foreach(var attendance in list)
+                foreach (var attendance in list)
                 {
                     attendanceList.Add(new Attendance(attendance));
                 }
@@ -116,28 +116,28 @@ namespace DeuluwaPIM.View
         private async void ModifyButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            if(button.Content as string == "정보 수정")
+            if (button.Content as string == "정보 수정")
             {
                 button.Content = "수정 완료";
                 ModifyMode(true);
             }
             else
             {
-                var dialogResult = await this.ShowMessageAsync("수정", "이대로 수정을 하시겠습니까?",MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Constants.metroDialogSettings);
-                if(dialogResult == MessageDialogResult.Affirmative)
+                var dialogResult = await this.ShowMessageAsync("수정", "이대로 수정을 하시겠습니까?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Constants.metroDialogSettings);
+                if (dialogResult == MessageDialogResult.Affirmative)
                 {
                     //수정 확인
                     UpdateData();
                     button.Content = "정보 수정";
                     ModifyMode(false);
                 }
-                else if(dialogResult == MessageDialogResult.FirstAuxiliary)
+                else if (dialogResult == MessageDialogResult.FirstAuxiliary)
                 {
                     //취소
                     button.Content = "정보 수정";
                     ModifyMode(false);
                 }
-                
+
             }
         }
 
@@ -169,7 +169,8 @@ namespace DeuluwaPIM.View
                 userDatagrid.SelectedIndex = number;
 
                 ViewUser(userDatagrid.SelectedItem as User);
-            } catch (System.Exception e)
+            }
+            catch (System.Exception e)
             {
                 System.Console.WriteLine(e);
                 await this.ShowMessageAsync("수정", "수정에 실패했어욥 ㅠㅠ", MessageDialogStyle.Affirmative, Constants.metroDialogSettings);
@@ -181,17 +182,17 @@ namespace DeuluwaPIM.View
         {
             if (on)
             {
-                nameBox.IsReadOnly =        false;
+                nameBox.IsReadOnly = false;
                 phonenumberBox.IsReadOnly = false;
-                addressBox.IsReadOnly =     false;
-                isAdminSwitch.IsEnabled =   true;
+                addressBox.IsReadOnly = false;
+                isAdminSwitch.IsEnabled = true;
             }
             else
             {
-                nameBox.IsReadOnly =        true;
+                nameBox.IsReadOnly = true;
                 phonenumberBox.IsReadOnly = true;
-                addressBox.IsReadOnly =     true;
-                isAdminSwitch.IsEnabled =   false;
+                addressBox.IsReadOnly = true;
+                isAdminSwitch.IsEnabled = false;
             }
         }
 
@@ -203,7 +204,8 @@ namespace DeuluwaPIM.View
 
                 ViewUser(item);
             }
-            catch {
+            catch
+            {
                 System.Console.WriteLine("리스트 끊김 쉬벌");
             }
         }
@@ -232,7 +234,7 @@ namespace DeuluwaPIM.View
             {
                 var dialogResult = await this.ShowMessageAsync("등록", "등록 하시겠습니까?", MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, Constants.metroDialogSettings);
 
-                if(dialogResult == MessageDialogResult.Affirmative)
+                if (dialogResult == MessageDialogResult.Affirmative)
                 {
                     if (idBox.Text == "" || nameBox.Text == "" || phonenumberBox.Text == "" || addressBox.Text == "")
                     {
@@ -248,23 +250,23 @@ namespace DeuluwaPIM.View
                         insertButton.Content = "신규 등록";
 
                         string id = idBox.Text;
-                        for(int i=0; i < userList.Count; i++) if(userList[i].id == id)
+                        for (int i = 0; i < userList.Count; i++) if (userList[i].id == id)
                             {
                                 userDatagrid.SelectedIndex = i;
                                 break;
                             }
                         addMode = false;
                     }
-                    else if(result == InsertResult.IDOVERLAP)
+                    else if (result == InsertResult.IDOVERLAP)
                     {
                         await this.ShowMessageAsync("중복", "아이디 중복이에여 쫌 제대로 확인좀 하고 하시라구요 짜증나게 하지 말고;;", MessageDialogStyle.Affirmative, Constants.metroDialogSettings);
                     }
-                    else if(result == InsertResult.SERVERERROR)
+                    else if (result == InsertResult.SERVERERROR)
                     {
                         await this.ShowMessageAsync("오류", "연결에 문제가 있는데 나중에 해봐요", MessageDialogStyle.Affirmative, Constants.metroDialogSettings);
                     }
                 }
-                else if(dialogResult == MessageDialogResult.FirstAuxiliary)
+                else if (dialogResult == MessageDialogResult.FirstAuxiliary)
                 {
                     //등록 취소
                     idBox.IsReadOnly = true;
@@ -315,6 +317,16 @@ namespace DeuluwaPIM.View
             var dialogResult = await this.ShowMessageAsync("비밀번호", "비밀번호를 전화번호로 초기화 하시겠습니까?", MessageDialogStyle.AffirmativeAndNegative, Constants.metroDialogSettings);
             //비밀번호 초기화 코드 작성
 
+            if (dialogResult == MessageDialogResult.Affirmative)
+            {
+                var result = await DeuluwaCore.Constants.HttpRequest(DeuluwaCore.Constants.shared.GetData("url") + "resetpassword/?id=" + idBox.Text);
+
+                if (result == "success") await this.ShowMessageAsync("비밀번호", "초기화가 완료되었습니다", MessageDialogStyle.Affirmative, Constants.metroDialogSettings);
+                else
+                {
+                    await this.ShowMessageAsync("비밀번호", "서버에 문제가 있어 보입니다", MessageDialogStyle.Affirmative, Constants.metroDialogSettings);
+                }
+            }
         }
     }
 }
